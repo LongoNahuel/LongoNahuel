@@ -1,0 +1,86 @@
+site_name: Organización de Computadoras I
+site_description: Documentación completa de la clase Organización de Computadoras I - UNAHUR
+site_author: Nahuel Eduardo Longo
+repo_url: https://github.com/LongoNahuel/obsidian-vault
+repo_name: obsidian-vault
+edit_uri: tree/main/docs
+
+theme:
+  name: material
+  language: es
+  logo: assets/images/logo.png
+  favicon: assets/images/favicon.ico
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: amber
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: amber
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.indexes
+    - toc.follow
+    - content.code.copy
+    - content.code.select
+
+plugins:
+  - search:
+      lang: es
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+  - md_in_html
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Inicio: index.md
+  - Clase II:
+    - clase-ii/index.md
+    - Estructura Numérica: clase-ii/estructura-numerica.md
+    - Potenciación: clase-ii/potenciacion.md
+    - Sistemas Numéricos: clase-ii/sistemas-numericos.md
+    - Teorema Fundamental: clase-ii/teorema-fundamental.md
+    - Métodos de Conversión: clase-ii/conversiones.md
+    - Tablas Rápidas: clase-ii/tablas-rapidas.md
+  - Ejercicios:
+    - ejercicios/index.md
+    - Ejercicios Resueltos: ejercicios/resueltos.md
+    - Práctica para Parcial: ejercicios/practica-parcial.md
+    - Ejercitación en Clase: ejercicios/ejercitacion-clase.md
+  - Recursos:
+    - recursos/index.md
+    - Tabla de Equivalencias: recursos/tabla-equivalencias.md
+    - Unidades de Almacenamiento: recursos/unidades-almacenamiento.md
+
+copyright: "© 2026 Nahuel Eduardo Longo - UNAHUR"
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/LongoNahuel
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX  # Reemplazar con tu Google Analytics ID si deseas
