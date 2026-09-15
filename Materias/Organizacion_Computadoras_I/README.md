@@ -1667,6 +1667,158 @@ Las tablas de referencia están separadas al final del documento. Imprime el arc
 - **Factor de Escala**: 2^n (depende SOLO de n, los bits fraccionarios)
 - **Overflow (Overflow)**: Ocurre cuando operandos del mismo signo dan resultado de signo opuesto
 
+---
+
+## 🎯 BANCO DE EJERCICIOS PARA PRACTICAR
+
+### Ejercicios Nivel 1: Conversión Binaria (Básico)
+
+**Instrucciones:** Convertir cada número decimal a binario usando divisiones sucesivas para la parte entera y multiplicaciones × 2 para la parte fraccionaria.
+
+| # | Decimal | Bits Enteros | Bits Fraccionarios | Respuesta |
+|---|---------|--------------|-------------------|-----------|
+| 1.1 | 23₁₀ | 5 | - | (10111)₂ |
+| 1.2 | 47₁₀ | 6 | - | (101111)₂ |
+| 1.3 | 0,5₁₀ | - | 3 | (100)₂ |
+| 1.4 | 0,625₁₀ | - | 4 | (1010)₂ |
+| 1.5 | 15,25₁₀ | 4 | 3 | (1111|010)₂ |
+| 1.6 | 31,75₁₀ | 5 | 4 | (11111|1100)₂ |
+| 1.7 | 63,125₁₀ | 6 | 4 | (111111|0010)₂ |
+| 1.8 | 8,375₁₀ | 4 | 4 | (1000|0110)₂ |
+
+---
+
+### Ejercicios Nivel 2: Suma Binaria sin Overflow (Intermedio)
+
+**Instrucciones:** Realizar suma binaria en el formato Q indicado. Mostrar acarreos. Verificar que NO hay overflow. Convertir resultado a decimal.
+
+| # | Formato | A₁₀ | B₁₀ | Respuesta Binaria | Respuesta Decimal |
+|---|---------|-----|-----|-------------------|-------------------|
+| 2.1 | Q0.5.2 | 12,5 | 7,25 | (10011\|10)₂ | 19,5₁₀ |
+| 2.2 | Q0.6.3 | 31,5 | 16,25 | (101111\|100)₂ | 47,5₁₀ |
+| 2.3 | Q1.5.3 | 15,75 | 8,125 | (0\|10111\|110)₂ | 23,75₁₀ |
+| 2.4 | Q1.6.4 | 48,625 | 23,25 | (0\|100011\|1110)₂ | 71,625₁₀ |
+| 2.5 | Q0.4.4 | 7,375 | 5,5 | (1100\|1110)₂ | 12,75₁₀ |
+
+**Pasos obligatorios:**
+1. Convertir ambos números a binario en el formato Q
+2. Realizar suma binaria alineada (mostrar acarreos con superíndices)
+3. Verificar overflow con Método 1 (signos)
+4. Convertir resultado a decimal
+5. Indicar si hay error de truncamiento
+
+---
+
+### Ejercicios Nivel 3: Suma con Overflow (Intermedio-Avanzado)
+
+**Instrucciones:** Detectar y documentar DÓNDE y POR QUÉ ocurre overflow usando ambos métodos.
+
+| # | Formato | A₁₀ | B₁₀ | ¿Overflow? | Método 1 (Signos) | Método 2 (Acarreos) |
+|---|---------|-----|-----|------------|-------------------|-------------------|
+| 3.1 | n=4 | +6 | +5 | ✅ SÍ | Dos + → resultado - | Cin≠Cout en BMS |
+| 3.2 | n=4 | +7 | +1 | ✅ SÍ | Dos + → resultado - | Cin≠Cout en BMS |
+| 3.3 | n=4 | -5 | -4 | ✅ SÍ | Dos - → resultado + | Cin≠Cout en BMS |
+| 3.4 | n=8 | +100 | +50 | ✅ SÍ | Dos + → resultado - | Cin≠Cout en BMS |
+| 3.5 | n=8 | -100 | -50 | ✅ SÍ | Dos - → resultado + | Cin≠Cout en BMS |
+
+**Pasos obligatorios:**
+1. Convertir a binario en n bits (formato simple, sin Q)
+2. Realizar suma binaria
+3. Aplicar Método 1: Comparar signos de A, B y resultado
+4. Aplicar Método 2: Mostrar acarreos en BMS (Cin_BMS vs Cout_BMS)
+5. Conclusión: Overflow sí/no y justificación
+
+---
+
+### Ejercicios Nivel 4: Resta con CA2 (Avanzado)
+
+**Instrucciones:** Realizar Y = A - B = A + CA2(B) en formato Q. Mostrar todos los pasos del CA2.
+
+| # | Formato | A₁₀ | B₁₀ | A Binario | CA2(B) Binario | Y Decimal |
+|---|---------|-----|-----|-----------|--------------------|-----------|
+| 4.1 | Q1.5.2 | +20,5 | +10,25 | (0\|10100\|10)₂ | (1\|01011\|11)₂ | +10,25₁₀ |
+| 4.2 | Q1.6.3 | +35,5 | +18,75 | (0\|100011\|100)₂ | (1\|011100\|101)₂ | +16,5₁₀ |
+| 4.3 | Q1.5.3 | +25,75 | +15,125 | (0\|11001\|110)₂ | (1\|00110\|011)₂ | +10,625₁₀ |
+| 4.4 | Q1.6.4 | +50,5 | +25,25 | (0\|110010\|1000)₂ | (1\|001101\|1100)₂ | +25,25₁₀ |
+
+**Pasos obligatorios:**
+1. Convertir A a binario (positivo, sin CA2)
+2. Convertir B a binario (positivo, sin CA2)
+3. Calcular CA2(B): NOT(B) luego +1
+4. Sumar A + CA2(B) mostrando acarreos
+5. Descartar Cout final
+6. Interpretar resultado (si BMS=0: positivo directo)
+7. Convertir a decimal
+8. Verificar overflow (signos diferentes = nunca overflow)
+
+---
+
+### Ejercicios Nivel 5: Problemas Completos de Examen (Avanzado)
+
+**Instrucciones:** Resolver como en el examen parcial. Mostrar TODOS los cálculos auxiliares. Usar recuadros para cada paso.
+
+#### Problema 5.1
+**Calcular:** Y = A + B en formato **Q1.7.4**
+- A = +62,5₁₀
+- B = +35,25₁₀
+
+**Verificar:** ¿Hay overflow? ¿Cuál es el error de representación?
+
+#### Problema 5.2
+**Calcular:** Y = A - B en formato **Q1.6.4**
+- A = +38,5₁₀
+- B = +22,75₁₀
+
+**Verificar:** ¿Hay overflow? ¿Coincide con el valor esperado?
+
+#### Problema 5.3
+**Calcular:** Y = A + B en formato **Q1.5.3** (rango: -32 a +31,875)
+- A = +18,75₁₀
+- B = +19,5₁₀
+
+**Detectar:** ¿Overflow? Usar ambos métodos de detección.
+
+#### Problema 5.4
+**Calcular:** Y = A - B en formato **Q1.8.5**
+- A = -120,75₁₀
+- B = +85,25₁₀
+
+**Pasos:** Conversión → CA2 → Suma → Overflow → Decimal
+
+---
+
+### 📊 Tabla de Referencia Rápida para Practicar
+
+**Siempre tener a mano:**
+
+| Concepto | Fórmula/Regla | Ejemplo |
+|----------|---------------|---------|
+| **Conversión entero a binario** | División ÷2 repetida | 23₁₀ → (10111)₂ |
+| **Conversión fracción a binario** | Multiplicación ×2 repetida | 0,625₁₀ → (101)₂ |
+| **Factor de Escala** | 2^n (solo depende de n) | Q1.5.3 → Factor = 2³ = 8 |
+| **CA2 de un número** | NOT(número) + 1 | NOT(0101) + 1 = (1011)₂ |
+| **Detección Overflow (Método 1)** | BMS_A = BMS_B ≠ BMS_Y | Ambos + pero resultado - |
+| **Detección Overflow (Método 2)** | BMS_A = BMS_B AND Cin ≠ Cout | Acarreos distintos en BMS |
+| **Suma algebraica** | A - B = A + CA2(B) | 5 - 3 = 5 + CA2(3) |
+
+---
+
+### ✅ Checklist para Cada Ejercicio de Examen
+
+**Antes de entregar, verificar:**
+
+- [ ] Convertí correctamente a binario (mostré divisiones/multiplicaciones)
+- [ ] Indiqué el formato Q correctamente
+- [ ] Mostré TODOS los acarreos (con superíndices)
+- [ ] Verifiqué overflow con ambos métodos
+- [ ] Convertí el resultado a decimal (mostré sumas de potencias)
+- [ ] Identifiqué errores de truncamiento si los hay
+- [ ] En restas: mostré cálculo explícito de CA2
+- [ ] Todas las operaciones están en el recuadro correspondiente
+- [ ] Las respuestas finales están claramente destacadas
+
+---
+
 ## Fuentes
 
 - Clase presencial UNAHUR 2026-08-18 (Clase II)
