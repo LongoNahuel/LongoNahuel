@@ -580,6 +580,186 @@ Detección en BIT 3:
 
 ---
 
+## 📋 Ejemplo Completo de Parcial: Suma con Overflow en Punto Fijo
+
+### Enunciado del Problema
+
+**Calcular:** Y = A + B en formato **Q1.8.5** (1 bit signo, 8 bits enteros, 5 bits fraccionarios)
+
+**Datos:**
+- A = -153,200₁₀
+- B = -107,75₁₀
+
+---
+
+### Paso 1: Convertir a Binario en Formato Q1.8.5
+
+**Para A = -153,200₁₀:**
+
+```
+Separar: 153 (entero), 0,200 (fraccionario)
+
+Parte entera 153₁₀:
+153 = 128 + 16 + 8 + 1 = 2⁷ + 2⁴ + 2³ + 2⁰
+153₁₀ = (10011001)₂  [8 bits]
+
+Parte fraccionaria 0,200₁₀:
+0,200 × 2 = 0,4 → bit=0
+0,4 × 2 = 0,8 → bit=0
+0,8 × 2 = 1,6 → bit=1
+0,6 × 2 = 1,2 → bit=1
+0,2 × 2 = 0,4 → bit=0  [repetición, periódico]
+0,200₁₀ ≈ (00110)₂ [5 bits, truncado]
+
+En Q1.8.5 (positivo): (0|10011001|00110)₂
+Pero A es NEGATIVO → aplicar CA2:
+A en binario puro: (0 10011001 00110)₂
+Aplicar CA2: NOT(0 10011001 00110) + 1 = (1 01100110 11010)₂
+
+(A)CA2 = (101100110 11010)₂
+```
+
+**Para B = -107,75₁₀:**
+
+```
+Separar: 107 (entero), 0,75 (fraccionario)
+
+Parte entera 107₁₀:
+107 = 64 + 32 + 8 + 2 + 1 = 2⁶ + 2⁵ + 2³ + 2¹ + 2⁰
+107₁₀ = (01101011)₂
+
+Parte fraccionaria 0,75₁₀:
+0,75 = 1/2 + 1/4 = 0,5 + 0,25
+0,75₁₀ = (11)₂ = (11000)₂ [5 bits, exacto]
+
+En Q1.8.5 (positivo): (0|01101011|11000)₂
+B es NEGATIVO → aplicar CA2:
+B en binario puro: (0 01101011 11000)₂
+Aplicar CA2: NOT(0 01101011 11000) + 1 = (1 10010100 01000)₂
+
+(B)CA2 = (110010100 01000)₂
+```
+
+---
+
+### Paso 2: Realizar Suma Binaria en CA2
+
+```
+Suma: (A)CA2 + (B)CA2
+
+         1 0 1 1 0 0 1 1 0 1 1 0 1 0    (-153,200)
+       + 1 1 0 0 1 0 1 0 0 0 1 0 0 0    (-107,75)
+       ─────────────────────────────────
+
+Acarreos (de derecha a izquierda):
+        1 0 0 0 0 1 0 1 0 1 1 1 0 0    ← Cin
+        0 1 0 1 1 0 0 1 1 0 1 1 0 1    (A)
+      + 1 1 0 0 1 0 1 0 0 0 1 0 0 0    (B)
+      ─────────────────────────────────
+        0 1 0 0 1 1 0 1 1 0 0 0 0 1    = (Y)CA2
+        
+Cout →  1 0 1 1 1 0 1 0 1 1 1 0 0 0
+```
+
+**Resultado en CA2:** (Y)CA2 = (0 10011011 00001)₂
+
+---
+
+### Paso 3: Detectar Overflow
+
+**Método 2 - Acarreos:**
+
+```
+Observar el BMS (bit más a la izquierda, bit 13 en este caso):
+
+Cin_BMS = 0 (acarreo que ENTRA al BMS desde columna anterior)
+Cout_BMS = 1 (acarreo que SALE del BMS, se descarta)
+
+Condiciones:
+✓ Mismo signo: (A)BMS = 1 (negativo), (B)BMS = 1 (negativo) ✓
+✓ Acarreos distintos: Cin_BMS(0) ≠ Cout_BMS(1) ✓
+
+→ ⚠️ OVERFLOW DETECTADO
+```
+
+---
+
+### Paso 4: Descomplementar para Obtener Resultado Decimal
+
+```
+Como BMS = 0 (el resultado tiene BMS=0 debido al overflow):
+Interpretar directamente: (Y)CA2 = (0 10011011 00001)₂
+
+Pero espera... como hay OVERFLOW, el resultado es INVÁLIDO.
+
+Sin embargo, procedemos a descomplementar:
+Y = NOT((Y)CA2) + 1 = NOT(0 10011011 00001) + 1
+Y = (1 01100100 11110) + 1
+Y = (1 01100101 00000) [en CA2]
+
+Ahora interpretar en decimal:
+(1 01100101 00001)₂ en CA2 representa:
+-(256 - valor_sin_complementar)
+= -(256 - 101) = -155 [aproximado]
+
+Mejor: Convertir directamente
+BMS = 0 (positivo después de descomplementar)
+Entero: (10011011)₂ = 155₁₀
+Fraccionario: (00001)₂ = 1/32 = 0,03125₁₀
+
+Resultado: Y = 155,03125₁₀ [INVÁLIDO por overflow]
+
+Resultado más cercano real: Y ≈ -260,95₁₀
+```
+
+---
+
+### Paso 5: Respuesta Final para el Examen
+
+```
+SOLUCIÓN:
+
+1. Conversión a Q1.8.5:
+   (A)CA2 = (1|01100110|11010)₂
+   (B)CA2 = (1|10010100|01000)₂
+
+2. Suma binaria en CA2:
+   (Y)CA2 = (0|10011011|00001)₂
+
+3. Resultado decimal (antes de descomplementar):
+   Y_intermedio ≈ +155,03₁₀
+
+4. DETECCIÓN DE OVERFLOW:
+   ⚠️ OVERFLOW DETECTADO
+   Razón: Cin_BMS = 0, Cout_BMS = 1 (acarreos distintos)
+          Además: Dos operandos negativos dieron resultado positivo
+
+5. Conclusión:
+   El resultado Y = +155,03125₁₀ es INVÁLIDO porque excede el rango válido 
+   de Q1.8.5 [-256, +255.96875].
+   El valor matemático correcto es -260,95₁₀, pero NO puede representarse 
+   en 14 bits con esta distribución de bits.
+```
+
+---
+
+### Notas Importantes para Examen
+
+✅ **Siempre:**
+- Convertir A y B a CA2 primero
+- Realizar suma binaria completa (mostrar acarreos)
+- Detectar overflow ANTES de interpretar el resultado
+- Descomplementar si BMS=1 (incluso con overflow)
+- Indicar si hay error de representación
+
+❌ **Nunca:**
+- Omitir la descomplementación si BMS=1
+- Olvidar mostrar los acarreos
+- No verificar overflow
+- Dejar el resultado como binario sin convertir a decimal
+
+---
+
 ## 🔢 Multiplicación y División por 10 en Base 10
 
 ### Teoría Fundamental
