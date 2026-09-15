@@ -87,7 +87,7 @@ B × 16 = 179,7 × 16 = 2875,2 ≈ 2875₁₀ = (00101100111011)₂
 Verificación: 4476 + 2875 = 7351 ✓
 
 #### Paso 5: Verificar overflow
-Ambos operandos positivos (MSB=0) → Resultado positivo (MSB=0) → **SIN OVERFLOW**
+Ambos operandos positivos (BMS=0) → Resultado positivo (BMS=0) → **SIN OVERFLOW**
 
 #### Paso 6: Dividir por factor de escala
 ```
@@ -118,16 +118,16 @@ Suma binaria:
   ──────
     1001
 
-Resultado: (1001)₂ → MSB = 1 (Negativo) ✗
+Resultado: (1001)₂ → BMS = 1 (Negativo) ✗
 
 Interpretar en C2:
 C2(1001) = NOT(1001) + 1 = (0110) + 1 = (0111) = 7
 Resultado interpretado: -7₁₀
 
 DETECCIÓN DE OVERFLOW:
-✓ Operando A: positivo (MSB=0)
-✓ Operando B: positivo (MSB=0)
-✗ Resultado: negativo (MSB=1)
+✓ Operando A: positivo (BMS=0)
+✓ Operando B: positivo (BMS=0)
+✗ Resultado: negativo (BMS=1)
 → ⚠️ OVERFLOW DETECTADO
 ```
 
@@ -148,13 +148,13 @@ Suma binaria:
 
 Descartamos carry → (1000)₂
 
-Resultado: (1000)₂ → MSB = 1 (Negativo) ✓
+Resultado: (1000)₂ → BMS = 1 (Negativo) ✓
 En 4 bits, 1000 en C2 = -8 (caso especial, límite mínimo)
 
 DETECCIÓN DE OVERFLOW:
-✓ Operando A: negativo (MSB=1)
-✓ Operando B: negativo (MSB=1)
-✓ Resultado: negativo (MSB=1)
+✓ Operando A: negativo (BMS=1)
+✓ Operando B: negativo (BMS=1)
+✓ Resultado: negativo (BMS=1)
 → ✅ SIN OVERFLOW (signos iguales)
 ```
 
@@ -177,16 +177,16 @@ Suma binaria (con acarreos):
   ───────────
     1001 1111
 
-Resultado: (1001 1111)₂ → MSB = 1 (Negativo) ✗
+Resultado: (1001 1111)₂ → BMS = 1 (Negativo) ✗
 
 Interpretar en C2:
 C2(1001 1111) = NOT(1001 1111) + 1 = (0110 0000) + 1 = (0110 0001) = 97
 Resultado interpretado: -97₁₀
 
 DETECCIÓN DE OVERFLOW:
-✓ Operando A: positivo (MSB=0)
-✓ Operando B: positivo (MSB=0)
-✗ Resultado: negativo (MSB=1)
+✓ Operando A: positivo (BMS=0)
+✓ Operando B: positivo (BMS=0)
+✗ Resultado: negativo (BMS=1)
 → ⚠️ OVERFLOW DETECTADO (excede rango +127)
 ```
 
@@ -205,14 +205,14 @@ Suma binaria (con acarreos):
   ───────────
   (1)0110 0001  → Descartamos carry
 
-Resultado: (0110 0001)₂ → MSB = 0 (Positivo) ✗
+Resultado: (0110 0001)₂ → BMS = 0 (Positivo) ✗
 
 Interpretar: (0110 0001) = 97₁₀
 
 DETECCIÓN DE OVERFLOW:
-✓ Operando A: negativo (MSB=1)
-✓ Operando B: negativo (MSB=1)
-✗ Resultado: positivo (MSB=0)
+✓ Operando A: negativo (BMS=1)
+✓ Operando B: negativo (BMS=1)
+✗ Resultado: positivo (BMS=0)
 → ⚠️ OVERFLOW DETECTADO (excede rango -128)
 ```
 
@@ -272,11 +272,11 @@ El cálculo original parece tener error. Mejor dejar sin esta verificación deta
 
 ### ⚠️ PASO CRÍTICO: Descomplementación cuando el Resultado es Negativo
 
-**REGLA FUNDAMENTAL:** Cuando el resultado de una suma en C2 tiene MSB=1 (es negativo), **SIEMPRE** hay que hacer un paso extra de descomplementación para obtener el valor decimal final.
+**REGLA FUNDAMENTAL:** Cuando el resultado de una suma en C2 tiene BMS=1 (es negativo), **SIEMPRE** hay que hacer un paso extra de descomplementación para obtener el valor decimal final.
 
 #### El Paso Extra que NUNCA se Omite:
 
-Si (R)_C2 < 0 (es decir, MSB = 1):
+Si (R)_C2 < 0 (es decir, BMS = 1):
 ```
 R = NOT((R)_C2) + 1
 ```
@@ -292,7 +292,7 @@ Paso 2: Sumar
 (R)_C2 = (0010 1000) + (1000 1001)
          = (1010 1001)₂
          
-MSB = 1 → El resultado es NEGATIVO en C2
+BMS = 1 → El resultado es NEGATIVO en C2
 
 ┌─────────────────────────────────────────────────────────┐
 │ ⚠️ PASO EXTRA OBLIGATORIO (No omitir nunca):            │
@@ -305,7 +305,7 @@ MSB = 1 → El resultado es NEGATIVO en C2
 │ R = 87₁₀                                                │
 │                                                          │
 │ Pero espera... ¿87 o -79?                              │
-│ Reinterpretación: Como MSB=1, es negativo en C2        │
+│ Reinterpretación: Como BMS=1, es negativo en C2        │
 │ El valor representa: -(87) = -79₁₀ ✓                    │
 └─────────────────────────────────────────────────────────┘
 
@@ -335,7 +335,7 @@ B en C2: C2(5) = NOT(0101) + 1 = (1010) + 1 = (1011)₂
 
 A + C2(B) = (0011) + (1011) = (1110)₂
 
-MSB = 1 → Negativo en C2
+BMS = 1 → Negativo en C2
 
 Descomplementar:
 R = NOT(1110) + 1 = (0001) + 1 = (0010) = 2₁₀
@@ -352,7 +352,7 @@ ALGORITMO SUMA ALGEBRAICA EN C2:
 1. Convertir A a C2 (si es negativo: NOT(A) + 1)
 2. Convertir B a C2 (si es negativo: NOT(B) + 1)
 3. Sumar: (R)_C2 = (A)_C2 + (B)_C2
-4. ¿MSB de (R)_C2 = 1? (¿Es negativo?)
+4. ¿BMS de (R)_C2 = 1? (¿Es negativo?)
    - SI → Descomplementar: R = NOT((R)_C2) + 1, luego interpretar como negativo
    - NO → R es el valor decimal directo
 5. Detectar overflow (opcional, pero importante)
@@ -360,7 +360,7 @@ ALGORITMO SUMA ALGEBRAICA EN C2:
 
 #### ¿Cuándo se Omite el Paso de Descomplementación?
 
-**NUNCA.** Aunque el resultado sea inválido por overflow, SIEMPRE se descomplementa si MSB=1.
+**NUNCA.** Aunque el resultado sea inválido por overflow, SIEMPRE se descomplementa si BMS=1.
 
 Ejemplo con overflow:
 ```
@@ -370,7 +370,7 @@ Ejemplo con overflow:
 (B)_C2 = (0010 1000)₂
 (R)_C2 = (1001 1111)₂
 
-MSB = 1 → Aplicar descomplementación OBLIGATORIA:
+BMS = 1 → Aplicar descomplementación OBLIGATORIA:
 R = NOT(1001 1111) + 1 = (0110 0000) + 1 = (0110 0001) = 97₁₀
 Interpretar como: -97₁₀
 
@@ -574,15 +574,33 @@ Las tablas de referencia están separadas al final del documento. Imprime el arc
 ❌ No se permiten teléfonos celulares  
 ❌ No se permiten trabajos prácticos (TP) durante el examen  
 
-## Notas Importantes
+## 📖 Abreviaciones y Nomenclatura
 
-- **LSB**: Least Significant Bit (bit menos significativo, más a la derecha)
-- **MSB**: Most Significant Bit (bit más significativo, más a la izquierda)
-- **C2**: Complemento a 2 (representación de negativos en punto fijo)
+### Abreviaciones en Español
+
+| Abreviación | Significado Completo | Descripción |
+|-------------|----------------------|-------------|
+| **BMS** | Bit Más Significativo | Bit más a la izquierda, define signo en C2 |
+| **BmS** | Bit menos Significativo | Bit más a la derecha |
+| **CA2** | Complemento a 2 | Representación de números negativos en punto fijo |
+| **Q[s].m.n** | Notación Q | Formato punto fijo: s=signo, m=enteros, n=fraccionarios |
+| **Cín** | Acarreo de entrada | Carry-in (entrada de acarreo en suma binaria) |
+| **Cout** | Acarreo de salida | Carry-out (salida de acarreo en suma binaria) |
+| **IEEE 754** | Estándar IEEE 754 | Estándar para punto flotante |
+| **Desborde** | Overflow | Cuando el resultado excede el rango válido |
+
+### Notas Importantes
+
+- **BMS** (Bit Más Significativo): Bit más a la izquierda
+  - En CA2: BMS = 0 → positivo | BMS = 1 → negativo
+- **BmS** (Bit menos Significativo): Bit más a la derecha
+- **CA2** (Complemento a 2): Representación de negativos en punto fijo
 - **Q[s].m.n**: Notación de punto fijo
   - s = bits de signo (0 = sin signo, 1 = con signo)
   - m = bits de enteros
   - n = bits de fraccionarios
+- **Factor de Escala**: 2^n (depende SOLO de n, los bits fraccionarios)
+- **Desborde (Overflow)**: Ocurre cuando operandos del mismo signo dan resultado de signo opuesto
 
 ## Fuentes
 
