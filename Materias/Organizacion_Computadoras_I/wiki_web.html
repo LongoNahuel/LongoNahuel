@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organización de Computadoras I - UNAHUR</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #5a67d8;
+            --secondary: #667eea;
+            --accent: #764ba2;
+            --light: #f7fafc;
+            --gray: #e2e8f0;
+            --dark: #2d3748;
+            --text: #1a202c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        body.dark-mode {
+            background: #0f1419;
+            color: #e2e8f0;
+            --text: #e2e8f0;
+        }
+
+        header {
+            background: var(--dark);
+            color: white;
+            padding: 32px 0;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        body.dark-mode header {
+            background: #1a202c;
+            border-bottom-color: #2d3748;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 0;
+            min-height: calc(100vh - 100px);
+        }
+
+        aside {
+            width: 260px;
+            background: white;
+            padding: 32px 24px;
+            border-right: 1px solid var(--gray);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        body.dark-mode aside {
+            background: #1a202c;
+            border-right-color: #2d3748;
+        }
+
+        aside h2 {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        body.dark-mode aside h2 {
+            color: #90cdf4;
+        }
+
+        aside nav ul {
+            list-style: none;
+        }
+
+        aside nav li {
+            margin-bottom: 4px;
+        }
+
+        aside nav a {
+            display: block;
+            padding: 10px 12px;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            border-left: 3px solid transparent;
+        }
+
+        body.dark-mode aside nav a {
+            color: #cbd5e0;
+        }
+
+        aside nav a:hover {
+            background: var(--light);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        body.dark-mode aside nav a:hover {
+            background: #2d3748;
+        }
+
+        aside nav a.active {
+            background: var(--light);
+            color: var(--primary);
+            font-weight: 600;
+            border-left-color: var(--primary);
+        }
+
+        body.dark-mode aside nav a.active {
+            background: #2d3748;
+            color: #90cdf4;
+            border-left-color: #90cdf4;
+        }
+
+        main {
+            flex: 1;
+            padding: 48px 48px;
+            background: white;
+            overflow-y: auto;
+        }
+
+        body.dark-mode main {
+            background: #0f1419;
+        }
+
+        main h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--gray);
+        }
+
+        body.dark-mode main h1 {
+            border-bottom-color: #2d3748;
+        }
+
+        main h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+
+        main h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin-top: 20px;
+            margin-bottom: 12px;
+        }
+
+        main p {
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        main code {
+            background: var(--light);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        body.dark-mode main code {
+            background: #2d3748;
+            color: #90cdf4;
+        }
+
+        main pre {
+            background: var(--light);
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+
+        body.dark-mode main pre {
+            background: #2d3748;
+            border-left-color: #90cdf4;
+            color: #e2e8f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 14px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+        }
+
+        body.dark-mode table th, body.dark-mode table td {
+            border-bottom-color: #2d3748;
+        }
+
+        table th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        body.dark-mode table th {
+            background: #2d3748;
+            color: #90cdf4;
+        }
+
+        table tr:hover {
+            background: var(--light);
+        }
+
+        body.dark-mode table tr:hover {
+            background: #1a202c;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            z-index: 100;
+        }
+
+        input[type="text"] {
+            padding: 10px 14px;
+            border: 1px solid var(--gray);
+            border-radius: 6px;
+            width: 200px;
+            font-size: 14px;
+            background: white;
+        }
+
+        body.dark-mode input[type="text"] {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-color: #4a5568;
+        }
+
+        button {
+            padding: 10px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        button:hover {
+            background: var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 16px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        strong {
+            font-weight: 600;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--gray);
+            margin: 32px 0;
+        }
+
+        body.dark-mode hr {
+            border-top-color: #2d3748;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            aside {
+                width: 100%;
+                height: auto;
+                position: static;
+                border-right: none;
+                border-bottom: 1px solid var(--gray);
+                padding: 20px 16px;
+            }
+
+            main {
+                padding: 24px 16px;
+            }
+
+            .controls {
+                position: static;
+                flex-direction: column;
+                gap: 8px;
+                width: 100%;
+                margin-top: 16px;
+            }
+
+            input[type="text"] {
+                width: 100%;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            main h1 {
+                font-size: 26px;
+            }
+        }
+
+        @print {
+            aside, .controls, header {
+                display: none;
+            }
+            main {
+                padding: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Organización de Computadoras I</h1>
+            <p>Guía de estudio para examen parcial · UNAHUR</p>
+        </div>
+    </header>
+
+    <div class="controls">
+        <input type="text" id="search" placeholder="Buscar...">
+        <button onclick="toggleDarkMode()">Tema</button>
+        <button onclick="window.print()">Imprimir</button>
+    </div>
+
+    <div class="main-container">
+        <aside>
+            <h2>Navegación</h2>
+            <nav>
+                <ul id="nav-list">
+                    <li><a href="#home" class="nav-link active" data-page="home">Inicio</a></li>
+                    <li><a href="#fundamentos" class="nav-link" data-page="fundamentos">Fundamentos</a></li>
+                    <li><a href="#algebra" class="nav-link" data-page="algebra">Álgebra Binaria</a></li>
+                    <li><a href="#puntofijo" class="nav-link" data-page="puntofijo">Punto Fijo</a></li>
+                    <li><a href="#overflow" class="nav-link" data-page="overflow">Overflow</a></li>
+                    <li><a href="#ejercicios" class="nav-link" data-page="ejercicios">Ejercicios</a></li>
+                    <li><a href="#banco" class="nav-link" data-page="banco">Banco Ejercicios</a></li>
+                    <li><a href="#plantillas" class="nav-link" data-page="plantillas">Plantillas</a></li>
+                    <li><a href="#referencia" class="nav-link" data-page="referencia">Referencia</a></li>
+                    <li><a href="#notas" class="nav-link" data-page="notas">Notas Finales</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main id="content">
+            <!-- Contenido dinámico -->
+        </main>
+    </div>
+
+    <script>
+        const pages = {
+            home: `
+                <h1>Inicio - Organización de Computadoras I</h1>
+                <p>Bienvenido a la guía completa de estudio para el examen parcial de <strong>Organización de Computadoras I</strong> en UNAHUR.</p>
+
+                <h2>Contenidos</h2>
+                <ul>
+                    <li><strong>Fundamentos</strong>: Estructuras numéricas y sistemas de numeración</li>
+                    <li><strong>Álgebra Binaria</strong>: Suma binaria y tabla de verdad</li>
+                    <li><strong>Punto Fijo</strong>: Notación Q y complemento a 2</li>
+                    <li><strong>Overflow</strong>: Dos métodos de detección</li>
+                    <li><strong>Ejercicios Resueltos</strong>: 7 ejemplos completos con soluciones</li>
+                    <li><strong>Banco de Ejercicios</strong>: 21 problemas para practicar</li>
+                    <li><strong>Plantillas</strong>: Tablas para imprimir</li>
+                    <li><strong>Referencia Rápida</strong>: Tablas y fórmulas clave</li>
+                </ul>
+
+                <h2>Conceptos Clave</h2>
+                <ul>
+                    <li><strong>Factor de Escala:</strong> 2^n (solo depende de bits fraccionarios)</li>
+                    <li><strong>Overflow:</strong> Ocurre cuando operandos del mismo signo dan resultado de signo opuesto</li>
+                    <li><strong>CA2:</strong> Complemento a 2 = NOT(número) + 1</li>
+                    <li><strong>Punto Fijo vs Flotante:</strong> Punto fijo usa CA2, flotante solo bit de signo</li>
+                </ul>
+
+                <h2>Cómo Usar Esta Guía</h2>
+                <ol>
+                    <li>Lee cada sección en orden comenzando por Fundamentos</li>
+                    <li>Practica con los ejercicios del Banco</li>
+                    <li>Imprime las plantillas para usar en el examen</li>
+                    <li>Consulta las tablas de referencia cuando las necesites</li>
+                </ol>
+            `,
+
+            fundamentos: `
+                <h1>Fundamentos: Estructuras Numéricas y Sistemas</h1>
+
+                <h2>Estructuras Numéricas</h2>
+
+                <h3>Números Naturales (ℕ)</h3>
+                <p>ℕ = {0, 1, 2, 3, 4, ...}</p>
+                <ul>
+                    <li>Usados para contar</li>
+                    <li>No incluyen negativos</li>
+                </ul>
+
+                <h3>Números Enteros (ℤ)</h3>
+                <p>ℤ = {..., -3, -2, -1, 0, 1, 2, 3, ...}</p>
+                <ul>
+                    <li>Incluyen positivos, negativos y cero</li>
+                    <li>Permiten restar sin restricción</li>
+                </ul>
+
+                <h3>Números Racionales (ℚ)</h3>
+                <p>ℚ = {p/q : p ∈ ℤ, q ∈ ℕ, q ≠ 0}</p>
+                <ul>
+                    <li>Fracciones y decimales finitos</li>
+                    <li>Decimales periódicos exactos</li>
+                </ul>
+
+                <h3>Números Reales (ℝ)</h3>
+                <p>ℝ = ℚ ∪ {números irracionales}</p>
+
+                <h2>Sistemas Numéricos</h2>
+
+                <h3>Sistema Binario (Base 2)</h3>
+                <p><strong>Símbolos:</strong> 0, 1</p>
+                <p><strong>Ejemplo:</strong> (1011)₂ = 1·2³ + 0·2² + 1·2¹ + 1·2⁰ = 11₁₀</p>
+
+                <h3>Sistema Decimal (Base 10)</h3>
+                <p><strong>Símbolos:</strong> 0-9</p>
+
+                <h3>Sistema Hexadecimal (Base 16)</h3>
+                <p><strong>Símbolos:</strong> 0-9, A-F</p>
+
+                <h3>Sistema Octal (Base 8)</h3>
+                <p><strong>Símbolos:</strong> 0-7</p>
+
+                <h2>Potencias de 2 (Memorizar)</h2>
+                <table>
+                    <tr><th>2^n</th><th>Valor</th><th>2^-n</th><th>Valor</th></tr>
+                    <tr><td>2⁰</td><td>1</td><td>2⁻¹</td><td>0,5</td></tr>
+                    <tr><td>2¹</td><td>2</td><td>2⁻²</td><td>0,25</td></tr>
+                    <tr><td>2²</td><td>4</td><td>2⁻³</td><td>0,125</td></tr>
+                    <tr><td>2³</td><td>8</td><td>2⁻⁴</td><td>0,0625</td></tr>
+                    <tr><td>2⁴</td><td>16</td><td>2⁻⁵</td><td>0,03125</td></tr>
+                    <tr><td>2⁵</td><td>32</td><td>2⁻⁶</td><td>0,015625</td></tr>
+                    <tr><td>2⁶</td><td>64</td><td>2⁻⁷</td><td>0,0078125</td></tr>
+                    <tr><td>2⁷</td><td>128</td><td>2⁻⁸</td><td>0,00390625</td></tr>
+                    <tr><td>2⁸</td><td>256</td><td>2⁻⁹</td><td>0,001953125</td></tr>
+                    <tr><td>2⁹</td><td>512</td><td>2⁻¹⁰</td><td>0,0009765625</td></tr>
+                    <tr><td>2¹⁰</td><td>1024</td><td></td><td></td></tr>
+                </table>
+            `,
+
+            algebra: `
+                <h1>Álgebra Binaria: Suma y Operaciones</h1>
+
+                <h2>Tabla de Verdad de Suma Binaria (1 Bit)</h2>
+                <table>
+                    <tr><th>A</th><th>B</th><th>Cin</th><th>S</th><th>Cout</th><th>Operación</th></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0+0+0=0</td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0+0+1=1</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0+1+0=1</td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0+1+1=10₂</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1+0+0=1</td></tr>
+                    <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1+0+1=10₂</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1+1+0=10₂</td></tr>
+                    <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1+1+1=11₂</td></tr>
+                </table>
+
+                <p><strong>Regla:</strong> Si (A + B + Cin) ≥ 2 → Cout = 1</p>
+
+                <h2>Conceptos Clave</h2>
+                <ul>
+                    <li><strong>Cin (Carry In):</strong> Acarreo que entra desde la posición anterior</li>
+                    <li><strong>Cout (Carry Out):</strong> Acarreo que sale hacia la siguiente posición</li>
+                    <li><strong>BmS (Bit menos Significativo):</strong> Bit más a la derecha</li>
+                    <li><strong>BMS (Bit Más Significativo):</strong> Bit más a la izquierda</li>
+                </ul>
+
+                <h2>Ejemplo: 5 + 3 en 4 bits</h2>
+                <pre>
+Posición:    4  3  2  1
+Acarreos:    ¹¹¹
+A (5):       0  1  0  1
+B (3):     + 0  0  1  1
+          ─────────────
+Y (8):       1  0  0  0
+
+Cin_BMS = 1, Cout_BMS = 0</pre>
+            `,
+
+            puntofijo: `
+                <h1>Notación Q: Punto Fijo</h1>
+
+                <h2>Formato Q[s].m.n</h2>
+                <p><strong>Estructura:</strong> Q[s].m.n</p>
+                <ul>
+                    <li><strong>s</strong> = bits para signo (0 o 1)</li>
+                    <li><strong>m</strong> = bits para parte entera</li>
+                    <li><strong>n</strong> = bits para parte fraccionaria</li>
+                </ul>
+
+                <h3>Ejemplos de Formatos</h3>
+                <table>
+                    <tr><th>Formato</th><th>Descripción</th><th>Rango</th></tr>
+                    <tr><td>Q0.10.4</td><td>Sin signo, 10 enteros, 4 fraccionarios</td><td>0 a 1023,9375</td></tr>
+                    <tr><td>Q1.7.4</td><td>Con signo, 7 enteros, 4 fraccionarios</td><td>-128 a +127,9375</td></tr>
+                    <tr><td>Q1.8.5</td><td>Con signo, 8 enteros, 5 fraccionarios</td><td>-256 a +255,96875</td></tr>
+                </table>
+
+                <h2>Factor de Escala</h2>
+                <p><strong>Regla Importante:</strong> Factor = 2^n (depende SOLO de bits fraccionarios)</p>
+
+                <h3>Aplicación</h3>
+                <pre>Para operar en punto fijo:
+1. Multiplicar por factor de escala → obtener entero
+2. Realizar operaciones (suma, resta)
+3. Dividir por factor de escala → volver a punto fijo
+
+Ejemplo en Q0.10.4:
+Factor = 2⁴ = 16
+
+A = 279,75₁₀
+A × 16 = 4476₁₀
+
+B = 179,7₁₀
+B × 16 = 2875,2 ≈ 2875₁₀
+
+Suma: 4476 + 2875 = 7351₁₀
+Dividir: 7351 ÷ 16 = 459,4375₁₀</pre>
+
+                <h2>Complemento a 2 (CA2)</h2>
+
+                <h3>Para Números Positivos</h3>
+                <p>Representar directamente en binario con BMS=0</p>
+                <pre>+5 en 4 bits = (0101)₂</pre>
+
+                <h3>Para Números Negativos</h3>
+                <p><strong>CA2(número) = NOT(número) + 1</strong></p>
+                <pre>-5 en 4 bits:
+Paso 1: +5 = (0101)₂
+Paso 2: NOT(0101) = (1010)₂
+Paso 3: (1010) + 1 = (1011)₂
+-5 = (1011)₂</pre>
+
+                <h3>Descomplementación</h3>
+                <p>Si el resultado tiene BMS=1 (es negativo):</p>
+                <pre>Valor = NOT(resultado) + 1</pre>
+            `,
+
+            overflow: `
+                <h1>Detección de Overflow</h1>
+
+                <h2>Concepto Fundamental</h2>
+                <p><strong>Overflow:</strong> Ocurre cuando el resultado de una operación excede el rango válido del formato.</p>
+
+                <p><strong>Causa Principal:</strong> Operandos del mismo signo producen resultado de signo opuesto.</p>
+
+                <h2>Método 1: Comparación de Signos</h2>
+
+                <h3>Regla</h3>
+                <pre>OVERFLOW = (BMS_A = BMS_B) AND (BMS_Y ≠ BMS_A)</pre>
+
+                <h3>Tabla de Casos</h3>
+                <table>
+                    <tr><th>A</th><th>B</th><th>Resultado</th><th>Overflow</th></tr>
+                    <tr><td>+</td><td>+</td><td>+</td><td>NO</td></tr>
+                    <tr><td>+</td><td>+</td><td>-</td><td>SÍ</td></tr>
+                    <tr><td>-</td><td>-</td><td>-</td><td>NO</td></tr>
+                    <tr><td>-</td><td>-</td><td>+</td><td>SÍ</td></tr>
+                    <tr><td>+</td><td>-</td><td>+/-</td><td>NO</td></tr>
+                    <tr><td>-</td><td>+</td><td>+/-</td><td>NO</td></tr>
+                </table>
+
+                <h2>Método 2: Análisis de Acarreos</h2>
+
+                <h3>Regla</h3>
+                <pre>OVERFLOW = (BMS_A = BMS_B) AND (Cin_BMS ≠ Cout_BMS)</pre>
+
+                <h3>Ejemplo</h3>
+                <pre>119 + 40 = 159 (en 8 bits, rango -128 a +127)
+
+    ¹0110000  ← Acarreos
+    0111 0111  (119)
+  + 0010 1000  (40)
+  ───────────
+    1001 1111  (resultado)
+
+Análisis del BMS (columna 8):
+Cin_BMS = 1 (acarreo entrante)
+Cout_BMS = 0 (acarreo saliente)
+1 ≠ 0 → OVERFLOW DETECTADO</pre>
+            `,
+
+            ejercicios: `
+                <h1>Ejercicios de Examen - Soluciones Detalladas</h1>
+
+                <h2>Ejercicio 2: Suma sin Overflow en Q1.7.4</h2>
+                <p><strong>Y = A + B</strong></p>
+                <ul>
+                    <li>A = +85,5₁₀</li>
+                    <li>B = +42,25₁₀</li>
+                    <li>Formato: Q1.7.4 (1 bit signo, 7 bits enteros, 4 bits fraccionarios)</li>
+                </ul>
+
+                <h3>Solución</h3>
+                <ol>
+                    <li><strong>Conversión A:</strong> 85,5₁₀ → (0|1010101|1000)₂</li>
+                    <li><strong>Conversión B:</strong> 42,25₁₀ → (0|0101010|0100)₂</li>
+                    <li><strong>Suma binaria:</strong> (0|1111110|0110)₂</li>
+                    <li><strong>Overflow:</strong> NO (dos positivos → resultado positivo)</li>
+                    <li><strong>Resultado:</strong> Y = 126,375₁₀</li>
+                </ol>
+
+                <h2>Ejercicio 3: Resta en Q1.6.5</h2>
+                <p><strong>Y = A - B = A + CA2(B)</strong></p>
+                <ul>
+                    <li>A = +45,5₁₀</li>
+                    <li>B = +28,75₁₀</li>
+                    <li>Formato: Q1.6.5</li>
+                </ul>
+
+                <h3>Solución</h3>
+                <ol>
+                    <li><strong>Conversión A:</strong> (0|101101|10000)₂</li>
+                    <li><strong>Conversión B:</strong> (0|011100|11000)₂</li>
+                    <li><strong>CA2(B):</strong> NOT(B) + 1 = (1|100011|01000)₂</li>
+                    <li><strong>Suma A + CA2(B):</strong> (0|010001|01000)₂</li>
+                    <li><strong>Resultado:</strong> Y = 17,25₁₀</li>
+                </ol>
+            `,
+
+            banco: `
+                <h1>Banco de Ejercicios para Practicar</h1>
+
+                <h2>Nivel 1: Conversión Binaria</h2>
+                <p>Convertir cada número decimal a binario.</p>
+                <table>
+                    <tr><th>Ejercicio</th><th>Decimal</th><th>Bits</th><th>Respuesta</th></tr>
+                    <tr><td>1.1</td><td>23₁₀</td><td>5 enteros</td><td>(10111)₂</td></tr>
+                    <tr><td>1.2</td><td>47₁₀</td><td>6 enteros</td><td>(101111)₂</td></tr>
+                    <tr><td>1.3</td><td>0,5₁₀</td><td>3 fraccionarios</td><td>(100)₂</td></tr>
+                    <tr><td>1.4</td><td>0,625₁₀</td><td>4 fraccionarios</td><td>(1010)₂</td></tr>
+                    <tr><td>1.5</td><td>15,25₁₀</td><td>4|3</td><td>(1111|010)₂</td></tr>
+                </table>
+
+                <h2>Nivel 2: Suma sin Overflow</h2>
+                <table>
+                    <tr><th>Ejercicio</th><th>Formato</th><th>A₁₀</th><th>B₁₀</th><th>Respuesta</th></tr>
+                    <tr><td>2.1</td><td>Q0.5.2</td><td>12,5</td><td>7,25</td><td>19,5₁₀</td></tr>
+                    <tr><td>2.2</td><td>Q0.6.3</td><td>31,5</td><td>16,25</td><td>47,5₁₀</td></tr>
+                    <tr><td>2.3</td><td>Q1.5.3</td><td>15,75</td><td>8,125</td><td>23,75₁₀</td></tr>
+                </table>
+
+                <h2>Nivel 3: Suma con Overflow</h2>
+                <p>Detectar overflow usando ambos métodos.</p>
+                <table>
+                    <tr><th>Ejercicio</th><th>Formato</th><th>A₁₀</th><th>B₁₀</th><th>Overflow</th></tr>
+                    <tr><td>3.1</td><td>n=4</td><td>+6</td><td>+5</td><td>SÍ</td></tr>
+                    <tr><td>3.2</td><td>n=4</td><td>+7</td><td>+1</td><td>SÍ</td></tr>
+                    <tr><td>3.3</td><td>n=4</td><td>-5</td><td>-4</td><td>SÍ</td></tr>
+                </table>
+            `,
+
+            plantillas: `
+                <h1>Plantillas para Imprimir</h1>
+
+                <h2>Instrucciones</h2>
+                <p>Imprime estas plantillas en papel A4. Usa lápiz para poder borrar durante el examen.</p>
+
+                <h2>Plantilla: Suma en Punto Fijo</h2>
+                <pre>╔════════════════════════════════════════════════════════════════╗
+║         SUMA EN PUNTO FIJO: Y = A + B (Formato Q1.a.b)         ║
+╠════════════════════════════════════════════════════════════════╣
+║ (A)₁₀ = ___________   (B)₁₀ = ___________                      ║
+║ Formato: Q1.___.___ (signo|___bits|___bits)                    ║
+║                                                                ║
+║ CONVERSIÓN:  (A)Q = (__|_______|______)₂                       ║
+║              (B)Q = (__|_______|______)₂                       ║
+║                                                                ║
+║ SUMA:        (Acarreos)  ___________________                  ║
+║              (A)         ___________________                  ║
+║              + (B)       ___________________                  ║
+║              ───────────────────────────────                 ║
+║              (Y)         ___________________                  ║
+║                                                                ║
+║ OVERFLOW: ☐ SÍ ☐ NO                                            ║
+║ RESULTADO: Y = _______________₁₀                              ║
+╚════════════════════════════════════════════════════════════════╝</pre>
+
+                <h2>Plantilla: Resta en Punto Fijo</h2>
+                <pre>╔════════════════════════════════════════════════════════════════╗
+║      RESTA: Y = A - B = A + CA2(B) (Formato Q1.a.b)            ║
+╠════════════════════════════════════════════════════════════════╣
+║ (A)₁₀ = ___________   (B)₁₀ = ___________                      ║
+║                                                                ║
+║ CONVERSIÓN:  (A)Q = (__|_______|______)₂                       ║
+║              (B)Q = (__|_______|______)₂                       ║
+║                                                                ║
+║ CA2:         NOT(B) = (__|_______|______)₂                     ║
+║              +1      = (__|_______|______)₂                    ║
+║                                                                ║
+║ SUMA:        (A)      ___________________                      ║
+║              +CA2(B)  ___________________                      ║
+║              ───────────────────────────                       ║
+║              (Y)      ___________________                      ║
+║                                                                ║
+║ RESULTADO: Y = _______________₁₀                              ║
+╚════════════════════════════════════════════════════════════════╝</pre>
+            `,
+
+            referencia: `
+                <h1>Tablas de Referencia Rápida</h1>
+
+                <h2>Tabla de Verdad de Suma Binaria</h2>
+                <table>
+                    <tr><th>A</th><th>B</th><th>Cin</th><th>S</th><th>Cout</th></tr>
+                    <tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                    <tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+                    <tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+                    <tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+                    <tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+                    <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+                    <tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+                </table>
+
+                <h2>Potencias de 2</h2>
+                <table>
+                    <tr><th>2^n</th><th>Valor</th><th>2^-n</th><th>Valor</th></tr>
+                    <tr><td>2⁰</td><td>1</td><td>2⁻¹</td><td>0,5</td></tr>
+                    <tr><td>2¹</td><td>2</td><td>2⁻²</td><td>0,25</td></tr>
+                    <tr><td>2²</td><td>4</td><td>2⁻³</td><td>0,125</td></tr>
+                    <tr><td>2³</td><td>8</td><td>2⁻⁴</td><td>0,0625</td></tr>
+                    <tr><td>2⁴</td><td>16</td><td>2⁻⁵</td><td>0,03125</td></tr>
+                    <tr><td>2⁵</td><td>32</td><td>2⁻⁶</td><td>0,015625</td></tr>
+                    <tr><td>2⁶</td><td>64</td><td>2⁻⁷</td><td>0,0078125</td></tr>
+                    <tr><td>2⁷</td><td>128</td><td>2⁻⁸</td><td>0,00390625</td></tr>
+                    <tr><td>2⁸</td><td>256</td><td>2⁻⁹</td><td>0,001953125</td></tr>
+                    <tr><td>2⁹</td><td>512</td><td>2⁻¹⁰</td><td>0,0009765625</td></tr>
+                    <tr><td>2¹⁰</td><td>1024</td><td></td><td></td></tr>
+                </table>
+
+                <h2>Abreviaciones</h2>
+                <table>
+                    <tr><th>Abreviación</th><th>Significado</th><th>Uso</th></tr>
+                    <tr><td>BMS</td><td>Bit Más Significativo</td><td>Bit de signo (izquierda)</td></tr>
+                    <tr><td>BmS</td><td>Bit menos Significativo</td><td>Bit menos importante (derecha)</td></tr>
+                    <tr><td>CA2</td><td>Complemento a 2</td><td>Representación de negativos</td></tr>
+                    <tr><td>Cin</td><td>Acarreo de entrada</td><td>Carry-in</td></tr>
+                    <tr><td>Cout</td><td>Acarreo de salida</td><td>Carry-out</td></tr>
+                </table>
+
+                <h2>Fórmulas Clave</h2>
+                <pre>Factor de Escala = 2^n
+Overflow = (BMS_A = BMS_B) AND (BMS_Y ≠ BMS_A)
+CA2(x) = NOT(x) + 1
+A - B = A + CA2(B)</pre>
+            `,
+
+            notas: `
+                <h1>Notas Finales y Recomendaciones</h1>
+
+                <h2>Reglas del Examen</h2>
+                <p><strong>Permitido:</strong></p>
+                <ul>
+                    <li>Calculadora científica (verificar modo: deg/rad, sin notación científica)</li>
+                    <li>Referencias impresas (esta guía, plantillas, tablas)</li>
+                </ul>
+
+                <p><strong>No permitido:</strong></p>
+                <ul>
+                    <li>Teléfonos celulares</li>
+                    <li>Trabajos prácticos</li>
+                    <li>Referencias no autorizadas</li>
+                </ul>
+
+                <h2>Errores Comunes a Evitar</h2>
+                <ul>
+                    <li>Olvidar mostrar todos los acarreos</li>
+                    <li>No verificar overflow</li>
+                    <li>No convertir resultado a decimal</li>
+                    <li>Error en complemento a 2: recordar NOT(x) + 1</li>
+                    <li>No documentar pasos de cálculo</li>
+                </ul>
+
+                <h2>Punto Fijo vs Punto Flotante</h2>
+                <table>
+                    <tr><th>Característica</th><th>Punto Fijo</th><th>Punto Flotante</th></tr>
+                    <tr><td>Formato</td><td>Q[s].m.n</td><td>IEEE 754</td></tr>
+                    <tr><td>Negativos</td><td>CA2</td><td>Solo bit signo</td></tr>
+                    <tr><td>Rango</td><td>Limitado y predecible</td><td>Muy amplio</td></tr>
+                </table>
+
+                <h2>Puntos Clave a Recordar</h2>
+                <ul>
+                    <li>Factor de Escala = 2^n (solo depende de bits fraccionarios)</li>
+                    <li>Overflow = mismo signo en operandos + signo opuesto en resultado</li>
+                    <li>CA2 se aplica solo a números negativos</li>
+                    <li>Mostrar el proceso es más importante que la respuesta final</li>
+                </ul>
+
+                <h2>Checklist Antes del Examen</h2>
+                <ul>
+                    <li>Imprimí plantillas (2-3 copias de cada una)</li>
+                    <li>Imprimí tablas de referencia</li>
+                    <li>Tengo calculadora científica funcionando</li>
+                    <li>Puedo convertir binario a decimal sin errores</li>
+                    <li>Sé detectar overflow con ambos métodos</li>
+                    <li>Entiendo diferencia punto fijo vs flotante</li>
+                    <li>Practiqué con al menos 10 ejercicios del banco</li>
+                </ul>
+
+                <h2>Durante el Examen</h2>
+                <ol>
+                    <li>Lee atentamente el enunciado (formato Q, valores)</li>
+                    <li>Convierte ambos números a binario (muestra el proceso)</li>
+                    <li>Realiza la suma mostrando todos los acarreos</li>
+                    <li>Detecta overflow con al menos un método</li>
+                    <li>Convierte a decimal (muestra las sumas de potencias)</li>
+                    <li>Verifica el resultado con calculadora</li>
+                    <li>Anota la respuesta final clara y destacada</li>
+                </ol>
+
+                <hr>
+                <p style="font-size: 13px; opacity: 0.7;">
+                    Última actualización: 2026-09-15 | UNAHUR
+                </p>
+            `
+        };
+
+        function loadPage(pageName) {
+            const content = document.getElementById('content');
+            if (pages[pageName]) {
+                content.innerHTML = pages[pageName];
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadPage(link.getAttribute('data-page'));
+            });
+        });
+
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+
+        loadPage('home');
+    </script>
+</body>
+</html>
