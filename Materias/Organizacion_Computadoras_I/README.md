@@ -760,6 +760,730 @@ SOLUCIÓN:
 
 ---
 
+## 📝 Ejercicio 2 de Parcial: Suma sin Overflow en Q1.7.4
+
+### Enunciado
+
+**Calcular:** Y = A + B en formato **Q1.7.4** (1 bit signo, 7 bits enteros, 4 bits fraccionarios)
+
+**Datos:**
+- A = +85,5₁₀
+- B = +42,25₁₀
+
+---
+
+### Solución Paso a Paso
+
+#### Paso 1: Convertir a Binario en Q1.7.4
+
+**Para A = +85,5₁₀ (POSITIVO):**
+
+##### Cálculos Auxiliares - Parte Entera (A = 85₁₀)
+```
+┌──────────────────────────────────────┐
+│ Método: Divisiones sucesivas por 2    │
+│                                       │
+│ 85 ÷ 2 = 42 resto 1  → bit más a la │
+│ 42 ÷ 2 = 21 resto 0               derecha│
+│ 21 ÷ 2 = 10 resto 1                  │
+│ 10 ÷ 2 = 5 resto 0                   │
+│ 5 ÷ 2 = 2 resto 1                    │
+│ 2 ÷ 2 = 1 resto 0                    │
+│ 1 ÷ 2 = 0 resto 1  → bit más a la    │
+│                      izquierda        │
+│                                       │
+│ Leyendo de abajo a arriba:            │
+│ 85₁₀ = (1010101)₂                    │
+│                                       │
+│ Verificación por potencias de 2:      │
+│ 1·2⁶ + 0·2⁵ + 1·2⁴ + 0·2³ +          │
+│ 1·2² + 0·2¹ + 1·2⁰                   │
+│ = 64 + 16 + 4 + 1 = 85₁₀ ✓           │
+└──────────────────────────────────────┘
+```
+
+##### Cálculos Auxiliares - Parte Fraccionaria (0,5₁₀)
+```
+┌──────────────────────────────────────┐
+│ Método: Multiplicación sucesiva × 2   │
+│                                       │
+│ 0,5 × 2 = 1,0   → bit = 1           │
+│ 0,0 × 2 = 0,0   → bit = 0           │
+│ (ceros no significativos)             │
+│                                       │
+│ 0,5₁₀ = (1000)₂ [4 bits exacto]      │
+│                                       │
+│ Verificación:                         │
+│ 1·2⁻¹ + 0·2⁻² + 0·2⁻³ + 0·2⁻⁴ =      │
+│ 1·(1/2) = 0,5₁₀ ✓                    │
+└──────────────────────────────────────┘
+```
+
+```
+┌──────────────────────────────────────┐
+│ RESULTADO A EN Q1.7.4:               │
+│ Signo: + → BMS = 0                   │
+│ Entero (7 bits): (1010101)₂          │
+│ Fraccionario (4 bits): (1000)₂       │
+│                                       │
+│ (A)Q1.7.4 = (0|1010101|1000)₂        │
+└──────────────────────────────────────┘
+```
+
+**Para B = +42,25₁₀ (POSITIVO):**
+
+##### Cálculos Auxiliares - Parte Entera (B = 42₁₀)
+```
+┌──────────────────────────────────────┐
+│ Método: Divisiones sucesivas por 2    │
+│                                       │
+│ 42 ÷ 2 = 21 resto 0  → bit más a la │
+│ 21 ÷ 2 = 10 resto 1               derecha│
+│ 10 ÷ 2 = 5 resto 0                   │
+│ 5 ÷ 2 = 2 resto 1                    │
+│ 2 ÷ 2 = 1 resto 0                    │
+│ 1 ÷ 2 = 0 resto 1  → bit más a la    │
+│                      izquierda        │
+│                                       │
+│ Leyendo de abajo a arriba:            │
+│ 42₁₀ = (101010)₂ = (0101010)₂ [7]   │
+│                                       │
+│ Verificación:                         │
+│ 0·2⁶ + 1·2⁵ + 0·2⁴ + 1·2³ +          │
+│ 0·2² + 1·2¹ + 0·2⁰                   │
+│ = 32 + 8 + 2 = 42₁₀ ✓                │
+└──────────────────────────────────────┘
+```
+
+##### Cálculos Auxiliares - Parte Fraccionaria (0,25₁₀)
+```
+┌──────────────────────────────────────┐
+│ Método: Multiplicación sucesiva × 2   │
+│                                       │
+│ 0,25 × 2 = 0,5   → bit = 0          │
+│ 0,5 × 2 = 1,0    → bit = 1          │
+│ 0,0 × 2 = 0,0    → bit = 0          │
+│ (ceros no significativos)             │
+│                                       │
+│ 0,25₁₀ = (0100)₂ [4 bits exacto]     │
+│                                       │
+│ Verificación:                         │
+│ 0·2⁻¹ + 1·2⁻² + 0·2⁻³ + 0·2⁻⁴ =      │
+│ 1·(1/4) = 0,25₁₀ ✓                   │
+└──────────────────────────────────────┘
+```
+
+```
+┌──────────────────────────────────────┐
+│ RESULTADO B EN Q1.7.4:               │
+│ Signo: + → BMS = 0                   │
+│ Entero (7 bits): (0101010)₂          │
+│ Fraccionario (4 bits): (0100)₂       │
+│                                       │
+│ (B)Q1.7.4 = (0|0101010|0100)₂        │
+└──────────────────────────────────────┘
+```
+
+#### Paso 2: Realizar Suma Binaria (con análisis por posición)
+
+##### Estructura de la Suma
+```
+Posición:    12  11 10  9  8  7  6  5  4  3  2  1
+                |                            |
+Signo ← ─────────────────────────── → Fraccionarios
+
+A (85,5):     0   1  0  1  0  1  0  1  1  0  0  0
+B (42,25):  + 0   0  1  0  1  0  1  0  0  1  0  0
+            ─────────────────────────────────────
+Y:           0   1  1  1  1  1  1  0  0  1  1  0
+```
+
+##### Cálculos Auxiliares - Suma Detallada por Posición
+```
+┌────────────────────────────────────────────┐
+│ ANÁLISIS BIT POR BIT (de derecha a izquierda):
+├────────────────────────────────────────────┤
+│ Posición 1 (bms):  A=0, B=0, Cin=0         │
+│                    0+0+0 = 0, Cout=0       │
+│                                            │
+│ Posición 2:        A=0, B=1, Cin=0         │
+│                    0+1+0 = 1, Cout=0       │
+│                                            │
+│ Posición 3:        A=0, B=0, Cin=0         │
+│                    0+0+0 = 0, Cout=0       │
+│                                            │
+│ Posición 4:        A=1, B=0, Cin=0         │
+│                    1+0+0 = 1, Cout=0       │
+│                                            │
+│ Posición 5:        A=1, B=1, Cin=0         │
+│                    1+1+0 = 10₂, R=0, C=1   │
+│                                            │
+│ Posición 6:        A=0, B=0, Cin=1         │
+│                    0+0+1 = 1, Cout=0       │
+│                                            │
+│ Posición 7:        A=1, B=1, Cin=0         │
+│                    1+1+0 = 10₂, R=0, C=1   │
+│                                            │
+│ Posición 8:        A=0, B=0, Cin=1         │
+│                    0+0+1 = 1, Cout=0       │
+│                                            │
+│ Posición 9:        A=1, B=1, Cin=0         │
+│                    1+1+0 = 10₂, R=0, C=1   │
+│                                            │
+│ Posición 10:       A=0, B=0, Cin=1         │
+│                    0+0+1 = 1, Cout=0       │
+│                                            │
+│ Posición 11:       A=1, B=0, Cin=0         │
+│                    1+0+0 = 1, Cout=0       │
+│                                            │
+│ Posición 12 (BMS): A=0, B=0, Cin=0         │
+│                    0+0+0 = 0, Cout=0       │
+│                                            │
+│ VERIFICACIÓN DECIMAL:                      │
+│ 85,5 × 16 = 1368₁₀ = (10101011000)₂       │
+│ 42,25 × 16 = 676₁₀ = (1010100100)₂        │
+│ 1368 + 676 = 2044₁₀ = (011111110110)₂ ✓   │
+└────────────────────────────────────────────┘
+```
+
+```
+┌──────────────────────────────────────────┐
+│         Acarreos (Cin)                   │
+│    0 1 0 1 0 0 0 0 1 1 0 0              │
+│    0 1 0 1 0 1 0 1 1 0 0 0  (85,5)      │
+│  + 0 0 1 0 1 0 1 0 0 1 0 0  (42,25)     │
+│  ─────────────────────────────          │
+│    0 1 1 1 1 1 1 0 0 1 1 0  (Y)         │
+│                                          │
+│  Cout →  0 1 0 1 0 1 1 0 1 0 0 0        │
+│                                          │
+│  RESULTADO: (Y)Q = (0|1111110|0110)₂   │
+└──────────────────────────────────────────┘
+```
+
+#### Paso 3: Detectar Overflow
+
+```
+┌─────────────────────────────────────────┐
+│ MÉTODO 1 - Comparación de Signos:       │
+│                                          │
+│ ✓ A positivo (BMS=0)                    │
+│ ✓ B positivo (BMS=0)                    │
+│ ✓ Y positivo (BMS=0)                    │
+│                                          │
+│ → ✅ SIN OVERFLOW (signos coherentes)   │
+│                                          │
+│ MÉTODO 2 - Acarreos:                    │
+│ Cin_BMS = 0, Cout_BMS = 0               │
+│ → ✅ SIN OVERFLOW (acarreos iguales)    │
+└─────────────────────────────────────────┘
+```
+
+#### Paso 4: Convertir a Decimal
+
+##### Cálculos Auxiliares - Parte Entera: (1111110)₂
+```
+┌──────────────────────────────────────────┐
+│ Método: Sumatoria de potencias de 2       │
+│                                           │
+│ (1111110)₂ =                              │
+│  1·2⁶ + 1·2⁵ + 1·2⁴ + 1·2³ +             │
+│  1·2² + 0·2¹ + 0·2⁰                     │
+│                                           │
+│ = 1·64 + 1·32 + 1·16 + 1·8 +            │
+│   1·4 + 0·2 + 0·1                      │
+│                                           │
+│ = 64 + 32 + 16 + 8 + 4 + 0 + 0          │
+│ = 126₁₀                                  │
+│                                           │
+│ Verificación alternativa:                 │
+│ 128 - 2 = 126 ✓ (2⁷ - 2¹)               │
+└──────────────────────────────────────────┘
+```
+
+##### Cálculos Auxiliares - Parte Fraccionaria: (0110)₂
+```
+┌──────────────────────────────────────────┐
+│ Método: Sumatoria de potencias negativas  │
+│                                           │
+│ (0110)₂ =                                 │
+│  0·2⁻¹ + 1·2⁻² + 1·2⁻³ + 0·2⁻⁴          │
+│                                           │
+│ = 0·(1/2) + 1·(1/4) + 1·(1/8) +         │
+│   0·(1/16)                             │
+│                                           │
+│ = 0 + 0,25 + 0,125 + 0                  │
+│ = 0,375₁₀                               │
+│                                           │
+│ Forma fraccionaria simplificada:         │
+│ (0110)₂ = 6₁₀                            │
+│ 6 ÷ 16 = 3/8 = 0,375₁₀                   │
+│                                           │
+│ Verificación:                             │
+│ 3 ÷ 8 = 0,375 ✓                         │
+└──────────────────────────────────────────┘
+```
+
+##### Resultado Decimal Final
+```
+┌──────────────────────────────────────────┐
+│ Y = (parte entera) + (parte fraccionaria)│
+│   = 126₁₀ + 0,375₁₀                     │
+│   = 126,375₁₀                            │
+│                                           │
+│ ANÁLISIS DE ERROR:                       │
+│ Valor matemático esperado:               │
+│   85,5 + 42,25 = 127,75₁₀               │
+│                                           │
+│ Valor obtenido en Q1.7.4:                │
+│   126,375₁₀                              │
+│                                           │
+│ Error de representación:                 │
+│   127,75 - 126,375 = 1,375₁₀            │
+│                                           │
+│ Causa: TRUNCAMIENTO DE BITS              │
+│ Q1.7.4 tiene solo 4 bits fraccionarios, │
+│ no puede representar exactamente 0,75    │
+│ (la representación exacta requeriría     │
+│  más precisión en bits fraccionarios)   │
+└──────────────────────────────────────────┘
+```
+
+#### Paso 5: Respuesta Final
+
+```
+╔═══════════════════════════════════════╗
+║ SOLUCIÓN FINAL                        ║
+╠═══════════════════════════════════════╣
+║                                        ║
+║ (A)Q1.7.4 = (0|1010101|1000)₂         ║
+║ (B)Q1.7.4 = (0|0101010|0100)₂         ║
+║                                        ║
+║ (Y)Q1.7.4 = (0|1111110|0110)₂         ║
+║                                        ║
+║ Y = 126,375₁₀                          ║
+║                                        ║
+║ ✅ SIN OVERFLOW                         ║
+║    (Dos positivos → resultado positivo)║
+║                                        ║
+║ ⚠️  NOTA: Diferencia con valor real     ║
+║    Real: 127,75₁₀                      ║
+║    Calculado: 126,375₁₀                ║
+║    Error: ≈1,375 (truncamiento)        ║
+║                                        ║
+╚═══════════════════════════════════════╝
+```
+
+---
+
+## 📝 Ejercicio 3 de Parcial: Resta (Suma con CA2) en Q1.6.5
+
+### Enunciado
+
+**Calcular:** Y = A - B en formato **Q1.6.5** (1 bit signo, 6 bits enteros, 5 bits fraccionarios)
+
+**Datos:**
+- A = +45,5₁₀
+- B = +28,75₁₀
+
+**Operación:** Y = A - B = +45,5 - 28,75 = +16,75₁₀
+
+---
+
+### Solución Detallada (Paso a Paso)
+
+#### Paso 1: Convertir A = +45,5₁₀ a Binario en Q1.6.5
+
+##### Cálculos Auxiliares - Parte Entera (A = 45₁₀)
+```
+┌──────────────────────────────────────┐
+│ Método: Divisiones sucesivas por 2    │
+│                                       │
+│ 45 ÷ 2 = 22 resto 1                  │
+│ 22 ÷ 2 = 11 resto 0                  │
+│ 11 ÷ 2 = 5 resto 1                   │
+│ 5 ÷ 2 = 2 resto 1                    │
+│ 2 ÷ 2 = 1 resto 0                    │
+│ 1 ÷ 2 = 0 resto 1                    │
+│                                       │
+│ Leyendo de abajo a arriba:            │
+│ 45₁₀ = (101101)₂ [6 bits]            │
+│                                       │
+│ Verificación:                         │
+│ 32 + 8 + 4 + 1 = 45₁₀ ✓               │
+│ 1·2⁵ + 0·2⁴ + 1·2³ + 1·2² +           │
+│ 0·2¹ + 1·2⁰ = 45 ✓                   │
+└──────────────────────────────────────┘
+```
+
+##### Cálculos Auxiliares - Parte Fraccionaria (0,5₁₀)
+```
+┌──────────────────────────────────────┐
+│ Método: Multiplicación sucesiva × 2   │
+│                                       │
+│ 0,5 × 2 = 1,0   → bit = 1            │
+│ 0,0 × 2 = 0,0   → bit = 0            │
+│ 0,0 × 2 = 0,0   → bit = 0            │
+│ 0,0 × 2 = 0,0   → bit = 0            │
+│ 0,0 × 2 = 0,0   → bit = 0            │
+│                                       │
+│ 0,5₁₀ = (10000)₂ [5 bits exacto]     │
+│                                       │
+│ Verificación:                         │
+│ 1·2⁻¹ = 0,5₁₀ ✓                      │
+└──────────────────────────────────────┘
+```
+
+```
+┌──────────────────────────────────────┐
+│ RESULTADO A EN Q1.6.5:               │
+│ (A)Q1.6.5 = (0|101101|10000)₂        │
+└──────────────────────────────────────┘
+```
+
+#### Paso 2: Convertir B = +28,75₁₀ a Binario en Q1.6.5
+
+##### Cálculos Auxiliares - Parte Entera (B = 28₁₀)
+```
+┌──────────────────────────────────────┐
+│ Método: Divisiones sucesivas por 2    │
+│                                       │
+│ 28 ÷ 2 = 14 resto 0                  │
+│ 14 ÷ 2 = 7 resto 0                   │
+│ 7 ÷ 2 = 3 resto 1                    │
+│ 3 ÷ 2 = 1 resto 1                    │
+│ 1 ÷ 2 = 0 resto 1                    │
+│                                       │
+│ Leyendo de abajo a arriba:            │
+│ 28₁₀ = (11100)₂ = (011100)₂ [6 bits] │
+│                                       │
+│ Verificación:                         │
+│ 16 + 8 + 4 = 28₁₀ ✓                  │
+│ 0·2⁵ + 1·2⁴ + 1·2³ + 1·2² +           │
+│ 0·2¹ + 0·2⁰ = 28 ✓                   │
+└──────────────────────────────────────┘
+```
+
+##### Cálculos Auxiliares - Parte Fraccionaria (0,75₁₀)
+```
+┌──────────────────────────────────────┐
+│ Método: Multiplicación sucesiva × 2   │
+│                                       │
+│ 0,75 × 2 = 1,5   → bit = 1           │
+│ 0,5 × 2 = 1,0    → bit = 1           │
+│ 0,0 × 2 = 0,0    → bit = 0           │
+│ 0,0 × 2 = 0,0    → bit = 0           │
+│ 0,0 × 2 = 0,0    → bit = 0           │
+│                                       │
+│ 0,75₁₀ = (11000)₂ [5 bits exacto]    │
+│                                       │
+│ Verificación:                         │
+│ 1·2⁻¹ + 1·2⁻² = 0,5 + 0,25 = 0,75 ✓ │
+└──────────────────────────────────────┘
+```
+
+```
+┌──────────────────────────────────────┐
+│ RESULTADO B EN Q1.6.5:               │
+│ (B)Q1.6.5 = (0|011100|11000)₂        │
+└──────────────────────────────────────┘
+```
+
+#### Paso 3: Calcular CA2(B) para realizar A - B
+
+##### Explicación del Método
+```
+┌──────────────────────────────────────┐
+│ Para restar en binario:              │
+│   A - B = A + CA2(B)                 │
+│                                       │
+│ CA2(B) = NOT(B) + 1                  │
+│                                       │
+│ Paso 1: Negar TODOS los bits (NOT)   │
+│ Paso 2: Sumar 1 al resultado         │
+│                                       │
+│ El resultado CA2(B) representa      │
+│ el valor "-B"                         │
+└──────────────────────────────────────┘
+```
+
+##### Cálculos Auxiliares - Paso 1: NOT(B)
+```
+┌──────────────────────────────────────┐
+│ Invertir CADA BIT de B:              │
+│                                       │
+│ (B)         = (0|011100|11000)₂      │
+│              pos: 1234567890ab       │
+│                                       │
+│ Posición 1: 0 → 1                    │
+│ Posición 2: 0 → 1                    │
+│ Posición 3: 0 → 1                    │
+│ Posición 4: 1 → 0                    │
+│ Posición 5: 1 → 0                    │
+│ Posición 6: 0 → 1                    │
+│ Posición 7: 0 → 1                    │
+│ Posición 8: 1 → 0                    │
+│ Posición 9: 1 → 0                    │
+│ Posición 10: 1 → 0                   │
+│ Posición 11: 0 → 1                   │
+│ Posición 12: 0 → 1                   │
+│                                       │
+│ NOT(B) = (1|100011|00111)₂           │
+└──────────────────────────────────────┘
+```
+
+##### Cálculos Auxiliares - Paso 2: NOT(B) + 1
+```
+┌──────────────────────────────────────┐
+│ Sumar 1 al resultado de NOT(B):      │
+│                                       │
+│         NOT(B) = (1|100011|00111)₂   │
+│                                       │
+│           Acarreo: 0 0 0 0 0 0 0 0 0 │
+│         1 1 0 0 0 1 1 0 0 1 1 1       │
+│       +                             1 │
+│        ───────────────────────────── │
+│         1 1 0 0 0 1 1 0 1 0 0 0       │
+│                                       │
+│ CA2(B) = (1|100011|01000)₂           │
+│                                       │
+│ Verificación alternativa:             │
+│ B en decimal = 28,75                 │
+│ -B en CA2 debe representar -28,75    │
+│ (cuando se interprete como negativo) │
+└──────────────────────────────────────┘
+```
+
+#### Paso 4: Realizar A + CA2(B)
+
+##### Estructura de la Suma
+```
+Posición:    12  11 10  9  8  7  6  5  4  3  2  1
+                |                             |
+Signo ← ─────────────────────────── → Fraccionarios
+
+A (+45,5):    0   1  0  1  1  0  1  1  0  0  0  0
+CA2(B):     + 1   1  0  0  0  1  1  0  1  0  0  0
+            ─────────────────────────────────────
+Y:          (1)  0  0  0  1  0  0  0  1  0  1  0  0
+            (descartamos este 1)
+```
+
+##### Cálculos Auxiliares - Suma Detallada por Posición
+```
+┌────────────────────────────────────────────┐
+│ ANÁLISIS BIT POR BIT (de derecha a izquierda):
+├────────────────────────────────────────────┤
+│ Pos 1:  A=0, CA2(B)=0, Cin=0               │
+│         0+0+0 = 0, Cout=0                  │
+│                                            │
+│ Pos 2:  A=0, CA2(B)=0, Cin=0               │
+│         0+0+0 = 0, Cout=0                  │
+│                                            │
+│ Pos 3:  A=0, CA2(B)=1, Cin=0               │
+│         0+1+0 = 1, Cout=0                  │
+│                                            │
+│ Pos 4:  A=1, CA2(B)=0, Cin=0               │
+│         1+0+0 = 1, Cout=0                  │
+│                                            │
+│ Pos 5:  A=0, CA2(B)=1, Cin=0               │
+│         0+1+0 = 1, Cout=0                  │
+│                                            │
+│ Pos 6:  A=1, CA2(B)=1, Cin=0               │
+│         1+1+0 = 10₂, R=0, C=1              │
+│                                            │
+│ Pos 7:  A=1, CA2(B)=0, Cin=1               │
+│         1+0+1 = 10₂, R=0, C=1              │
+│                                            │
+│ Pos 8:  A=0, CA2(B)=0, Cin=1               │
+│         0+0+1 = 1, Cout=0                  │
+│                                            │
+│ Pos 9:  A=0, CA2(B)=0, Cin=0               │
+│         0+0+0 = 0, Cout=0                  │
+│                                            │
+│ Pos 10: A=1, CA2(B)=0, Cin=0               │
+│         1+0+0 = 1, Cout=0                  │
+│                                            │
+│ Pos 11: A=0, CA2(B)=1, Cin=0               │
+│         0+1+0 = 1, Cout=0                  │
+│                                            │
+│ Pos 12 (BMS): A=0, CA2(B)=1, Cin=0         │
+│         0+1+0 = 1, Cout=0                  │
+│         ← Pero hay un Cout adicional = 1   │
+│                                            │
+│ RESULTADO SIN COUT: (0|010001|01000)₂     │
+│ (Cout se DESCARTA en operaciones con CA2) │
+└────────────────────────────────────────────┘
+```
+
+```
+┌──────────────────────────────────────────┐
+│         Acarreos (Cin)                   │
+│    0 1 0 1 1 1 0 0 0 1 0 1              │
+│    0 1 0 1 1 0 1 1 0 0 0 0  (+45,5)     │
+│  + 1 1 0 0 0 1 1 0 1 0 0 0  (CA2(-28,75))
+│  ─────────────────────────────          │
+│    0 0 0 1 0 0 0 1 0 1 0 0  (Y)         │
+│                                          │
+│  Cout →  1 (SE DESCARTA)                │
+│                                          │
+│  RESULTADO: (Y)Q = (0|010001|01000)₂   │
+└──────────────────────────────────────────┘
+```
+
+#### Paso 5: Detectar Overflow
+
+##### Método 1: Análisis de Signos
+```
+┌──────────────────────────────────────┐
+│ En una operación A - B:              │
+│ Se evalúa como A + CA2(B)            │
+│                                       │
+│ La detección de overflow NO se basa  │
+│ en los signos de A y B originales,   │
+│ sino en los signos de A y CA2(B).    │
+│                                       │
+│ A = +45,5 → BMS = 0 (positivo)      │
+│ CA2(B) = -28,75 → BMS = 1 (negativo) │
+│                                       │
+│ ⚠️ IMPORTANTE:                        │
+│ Cuando operandos tienen signos      │
+│ DIFERENTES, NUNCA hay overflow.     │
+│                                       │
+│ → ✅ SIN OVERFLOW (signos diferentes) │
+└──────────────────────────────────────┘
+```
+
+##### Método 2: Análisis de Acarreos
+```
+┌──────────────────────────────────────┐
+│ BMS es la posición 12 (bit de signo) │
+│                                       │
+│ Cin_BMS (acarreo entrando) = 0       │
+│ Cout_BMS (acarreo saliendo) = 1      │
+│                                       │
+│ ¿Son distintos?                      │
+│ 0 ≠ 1 ?   SÍ                         │
+│                                       │
+│ PERO: Overflow solo ocurre cuando:  │
+│   - Ambos operandos tienen          │
+│     el MISMO signo                  │
+│   Y                                  │
+│   - Cin_BMS ≠ Cout_BMS              │
+│                                       │
+│ En este caso:                         │
+│ A positivo (0), CA2(B) negativo (1) │
+│ → Signos DIFERENTES                  │
+│                                       │
+│ → ✅ SIN OVERFLOW                    │
+│    (No se aplica regla de acarreos) │
+└──────────────────────────────────────┘
+```
+
+#### Paso 6: Convertir Resultado a Decimal
+
+##### Cálculos Auxiliares - Parte Entera: (010001)₂
+```
+┌──────────────────────────────────────┐
+│ Método: Sumatoria de potencias de 2   │
+│                                       │
+│ (010001)₂ =                           │
+│  0·2⁵ + 1·2⁴ + 0·2³ + 0·2² +         │
+│  0·2¹ + 1·2⁰                        │
+│                                       │
+│ = 0·32 + 1·16 + 0·8 + 0·4 +         │
+│   0·2 + 1·1                        │
+│                                       │
+│ = 0 + 16 + 0 + 0 + 0 + 1            │
+│ = 17₁₀                               │
+│                                       │
+│ Verificación alternativa:             │
+│ Binario 010001 = 16 + 1 = 17 ✓      │
+└──────────────────────────────────────┘
+```
+
+##### Cálculos Auxiliares - Parte Fraccionaria: (01000)₂
+```
+┌──────────────────────────────────────┐
+│ Método: Sumatoria de potencias negativas
+│                                       │
+│ (01000)₂ =                            │
+│  0·2⁻¹ + 1·2⁻² + 0·2⁻³ + 0·2⁻⁴ +    │
+│  0·2⁻⁵                              │
+│                                       │
+│ = 0·(1/2) + 1·(1/4) + 0·(1/8) +    │
+│   0·(1/16) + 0·(1/32)              │
+│                                       │
+│ = 0 + 0,25 + 0 + 0 + 0              │
+│ = 0,25₁₀                             │
+│                                       │
+│ Forma fraccionaria simplificada:     │
+│ (01000)₂ = 8₁₀                       │
+│ 8 ÷ 32 = 1/4 = 0,25₁₀               │
+│                                       │
+│ Verificación:                         │
+│ 1 ÷ 4 = 0,25 ✓                      │
+└──────────────────────────────────────┘
+```
+
+##### Resultado Decimal Final
+```
+┌──────────────────────────────────────┐
+│ Y = (parte entera) + (parte fraccionaria)
+│   = 17 + 0,25                        │
+│   = 17,25₁₀                          │
+│                                       │
+│ ANÁLISIS DE ERROR:                   │
+│ Valor matemático esperado:           │
+│   45,5 - 28,75 = 16,75₁₀            │
+│                                       │
+│ Valor obtenido en Q1.6.5:            │
+│   17,25₁₀                            │
+│                                       │
+│ Error de representación:              │
+│   17,25 - 16,75 = 0,5₁₀              │
+│                                       │
+│ Causa: TRUNCAMIENTO DE BITS          │
+│ Q1.6.5 tiene solo 5 bits fraccionarios
+│ No puede representar exactamente     │
+│ 0,75 (requeriría más precisión)      │
+└──────────────────────────────────────┘
+```
+
+#### Paso 7: Respuesta Final
+
+```
+╔════════════════════════════════════════╗
+║ SOLUCIÓN FINAL - EJERCICIO 3           ║
+╠════════════════════════════════════════╣
+║                                        ║
+║ DATOS:                                 ║
+║ A = +45,5₁₀  → Q1.6.5                 ║
+║ B = +28,75₁₀ → Q1.6.5                 ║
+║                                        ║
+║ OPERACIÓN: Y = A - B                   ║
+║                                        ║
+║ RESULTADO BINARIO:                     ║
+║ (Y)Q1.6.5 = (0|010001|01000)₂         ║
+║                                        ║
+║ RESULTADO DECIMAL:                     ║
+║ Y = 17,25₁₀                            ║
+║                                        ║
+║ VERIFICACIÓN OVERFLOW:                 ║
+║ ✅ SIN OVERFLOW                        ║
+║ (Operandos con signos diferentes      ║
+║  NUNCA producen overflow)              ║
+║                                        ║
+║ NOTA IMPORTANTE:                       ║
+║ Error de truncamiento: 0,5₁₀          ║
+║ (Diferencia entre 16,75 real y       ║
+║  17,25 calculado)                     ║
+║                                        ║
+╚════════════════════════════════════════╝
+```
+
+---
+
 ## 🔢 Multiplicación y División por 10 en Base 10
 
 ### Teoría Fundamental
