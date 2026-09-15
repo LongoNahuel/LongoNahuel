@@ -511,6 +511,75 @@ Condiciones:
 
 ---
 
+### Propagación de Carries en un Sumador de 4 Bits
+
+**Diagrama Visual:**
+
+```
+        B₃  A₃       B₂  A₂       B₁  A₁       B₀  A₀
+         │   │        │   │        │   │        │   │
+         └───┴──┐  ┌──┴───┴─┐  ┌──┴───┴─┐  ┌──┴───┴─┐
+              C₃│  │C₂      │  │C₁      │  │C₀      │
+            ┌───┘  │        │  │        │  │        │
+            │    ┌─┴─┐    ┌─┴─┐      ┌─┴─┐      ┌─┴─┐
+            │    │FA │◄───│FA │◄─────│FA │◄─────│FA │  (Sumador 4 bits)
+            │    └─┬─┘    └─┬─┘      └─┬─┘      └─┬─┘
+            │      │        │          │          │
+            │      S₃       S₂         S₁         S₀ (Salidas)
+            │
+            └──────────────────────────────────────►
+                      Propagación de Carry
+                      (de derecha a izquierda)
+```
+
+**Explicación de la Propagación:**
+
+| Posición | Descripción | Entrada | Salida |
+|----------|------------|---------|--------|
+| **Bit 0** (BmS) | Menos significativo | A₀, B₀, **C₀=0** | S₀, **Cout₀ → C₁** |
+| **Bit 1** | Intermedio | A₁, B₁, **Cin=C₁** | S₁, **Cout₁ → C₂** |
+| **Bit 2** | Intermedio | A₂, B₂, **Cin=C₂** | S₂, **Cout₂ → C₃** |
+| **Bit 3** (BMS) | Más significativo | A₃, B₃, **Cin=C₃** | S₃, **Cout₃** (descartado) |
+
+---
+
+### Detección de Overflow en el Circuito
+
+**Para detectar Overflow en hardware, observamos:**
+
+```
+Método 2 en el circuito:
+
+Bit 3 (BMS):
+- Cin_BMS = C₃ (acarreo que ENTRA al bit más significativo)
+- Cout_BMS = Cout₃ (acarreo que SALE del bit más significativo, se descarta)
+
+OVERFLOW = (BMS_A = BMS_B) AND (C₃ ≠ Cout₃)
+```
+
+**Ejemplo: 119 + 40 en sumador de 8 bits**
+
+```
+        B₇ A₇  ... B₃ A₃  B₂ A₂  B₁ A₁  B₀ A₀
+         │  │       │  │   │  │   │  │   │  │
+        ┌┴──┴┐     ┌┴──┴┐ ┌┴──┴┐ ┌┴──┴┐ ┌┴──┴┐
+        │FA  │◄──┬─│FA  │◄┤FA  │◄┤FA  │◄┤FA  │ ... [más FAs]
+        └┬───┘   │ └┬───┘ └┬───┘ └┬───┘ └┬───┘
+         S₇      │  S₃     S₂     S₁     S₀
+         
+         ↑       ↑
+         │       └─── C₃ (Cin del BMS)
+         │
+         └─────────── Cout₇ (se descarta)
+
+Detección en BIT 3:
+- C₃ = 1 (acarreo que ENTRA)
+- Cout₃ = 0 (acarreo que SALE)
+- 1 ≠ 0 → OVERFLOW
+```
+
+---
+
 ## 🔢 Multiplicación y División por 10 en Base 10
 
 ### Teoría Fundamental
