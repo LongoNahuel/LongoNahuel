@@ -57,7 +57,7 @@ Abre `apuntes.html` en cualquier navegador web. El archivo está completamente a
 Las tablas de referencia están separadas al final del documento. Imprime el archivo completo o selecciona solo esas secciones.
 
 ### Configuración para examen
-✅ Se permite usar calculadora (no científica, bien configurada)  
+✅ Se permite utilizar calculadora científica, pero verificar el modo de trabajo de esta  
 ❌ Se permite usar referencias impresas (este archivo)  
 ❌ No se permiten teléfonos celulares  
 ❌ No se permiten trabajos prácticos (TP) durante el examen  
