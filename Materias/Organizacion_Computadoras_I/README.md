@@ -1819,6 +1819,262 @@ Las tablas de referencia están separadas al final del documento. Imprime el arc
 
 ---
 
+## 🖨️ PLANTILLAS PARA IMPRIMIR Y USAR EN EXAMEN
+
+### Plantilla 1: Tabla de Suma en Punto Fijo Q1.a.b
+
+```
+╔════════════════════════════════════════════════════════════════╗
+║         SUMA EN PUNTO FIJO: Y = A + B (Formato Q1.a.b)         ║
+╠════════════════════════════════════════════════════════════════╣
+║                                                                ║
+║ DATOS (valores en decimal):                                    ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │ (A)₁₀ = ___________                  │                      ║
+║ │ (B)₁₀ = ___________                  │                      ║
+║ │ Formato: Q1.___.___ (signo|___bits enteros|___bits frac)     │
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ PASO 1: CONVERTIR A BINARIO                                    ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │ (A)Q = (__|_________|_________)₂     │                      ║
+║ │ (B)Q = (__|_________|_________)₂     │                      ║
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ PASO 2: SUMA BINARIA CON ACARREOS                             ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │        Acarreos (Cin):               │                      ║
+║ │   _  _  _  _  _  _  _  _  _  _  _    │                      ║
+║ │   _  _  _  _  _  _  _  _  _  _  _    │                      ║
+║ │ + _  _  _  _  _  _  _  _  _  _  _    │                      ║
+║ │ ─────────────────────────────────    │                      ║
+║ │   _  _  _  _  _  _  _  _  _  _  _    │                      ║
+║ │ Cout→ _  _  _  _  _  _  _  _  _  _    │                      ║
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ PASO 3: DETECTAR OVERFLOW                                      ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │ Método 1 (Signos):                   │                      ║
+║ │ BMS_A = __, BMS_B = __, BMS_Y = __   │                      ║
+║ │ ¿Mismo signo en A y B? _____         │                      ║
+║ │ ¿Distinto signo en Y? _____          │                      ║
+║ │ Conclusión: ________________         │                      ║
+║ │                                      │                      ║
+║ │ Método 2 (Acarreos):                 │                      ║
+║ │ Cin_BMS = __, Cout_BMS = __          │                      ║
+║ │ ¿Son distintos? _____                │                      ║
+║ │ Conclusión: ________________         │                      ║
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ PASO 4: CONVERTIR RESULTADO A DECIMAL                          ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │ (Y)Q = (__|_________|_________)₂     │                      ║
+║ │                                      │                      ║
+║ │ Parte entera: _________________      │                      ║
+║ │ Parte fraccionaria: ______________   │                      ║
+║ │ (Y)₁₀ = ____________________         │                      ║
+║ │                                      │                      ║
+║ │ Verificación:                        │                      ║
+║ │ Valor esperado: ___________          │                      ║
+║ │ Error de truncamiento: _________     │                      ║
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ RESULTADO FINAL:                                               ║
+║ ╔════════════════════════════════════╗                        ║
+║ ║ Y = _______________₁₀              ║                        ║
+║ ║ Overflow: ☐ SÍ  ☐ NO              ║                        ║
+║ ╚════════════════════════════════════╝                        ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+### Plantilla 2: Tabla de Resta en Punto Fijo Q1.a.b (A - B)
+
+```
+╔════════════════════════════════════════════════════════════════╗
+║      RESTA EN PUNTO FIJO: Y = A - B = A + CA2(B) (Q1.a.b)      ║
+╠════════════════════════════════════════════════════════════════╣
+║                                                                ║
+║ DATOS (valores en decimal):                                    ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │ (A)₁₀ = ___________                  │                      ║
+║ │ (B)₁₀ = ___________                  │                      ║
+║ │ Formato: Q1.___.___ (signo|___bits enteros|___bits frac)     ║
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ PASO 1: CONVERTIR A BINARIO                                    ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │ (A)Q = (__|_________|_________)₂     │                      ║
+║ │ (B)Q = (__|_________|_________)₂     │                      ║
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ PASO 2: CALCULAR CA2(B)                                        ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │ (B)    = (__|_________|_________)₂   │                      ║
+║ │ NOT(B) = (__|_________|_________)₂   │                      ║
+║ │ CA2(B) = (__|_________|_________)₂   │ (+1)                │
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ PASO 3: SUMA A + CA2(B)                                        ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │        Acarreos (Cin):               │                      ║
+║ │   _  _  _  _  _  _  _  _  _  _  _    │                      ║
+║ │   _  _  _  _  _  _  _  _  _  _  _    │ (A)                 │
+║ │ + _  _  _  _  _  _  _  _  _  _  _    │ (CA2(B))            │
+║ │ ─────────────────────────────────    │                      ║
+║ │   _  _  _  _  _  _  _  _  _  _  _    │ (Y)                 │
+║ │ Cout→ _  _  _  _  _  _  _  _  _  _    │ (se descarta)      │
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ PASO 4: VERIFICAR OVERFLOW                                     ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │ Regla: A y CA2(B) tienen signos      │                      ║
+║ │        DIFERENTES (A=+/-, CA2(B)=     │                      ║
+║ │        el opuesto)                   │                      ║
+║ │                                      │                      ║
+║ │ BMS_A = __, BMS_CA2B = __            │                      ║
+║ │ Signos distintos → ¡NUNCA OVERFLOW!  │                      ║
+║ │ Conclusión: SIN OVERFLOW             │                      ║
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ PASO 5: CONVERTIR A DECIMAL                                    ║
+║ ┌──────────────────────────────────────┐                      ║
+║ │ (Y)Q = (__|_________|_________)₂     │                      ║
+║ │                                      │                      ║
+║ │ Parte entera: _________________      │                      ║
+║ │ Parte fraccionaria: ______________   │                      ║
+║ │ (Y)₁₀ = ____________________         │                      ║
+║ │                                      │                      ║
+║ │ Verificación: A₁₀ - B₁₀ = _________  │                      ║
+║ └──────────────────────────────────────┘                      ║
+║                                                                ║
+║ RESULTADO FINAL:                                               ║
+║ ╔════════════════════════════════════╗                        ║
+║ ║ Y = _______________₁₀              ║                        ║
+║ ║ Overflow: ☐ SÍ  ☐ NO              ║                        ║
+║ ╚════════════════════════════════════╝                        ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+### Plantilla 3: Análisis Rápido de Overflow
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║              ANÁLISIS RÁPIDO DE OVERFLOW                      ║
+╚═══════════════════════════════════════════════════════════════╝
+
+MÉTODO 1: COMPARACIÓN DE SIGNOS (Más rápido)
+┌─────────────────────────────────────────────────────────┐
+│                                                         │
+│  Paso 1: Identificar signo de A                         │
+│          BMS_A = ___  (0=+, 1=-)                        │
+│                                                         │
+│  Paso 2: Identificar signo de B                         │
+│          BMS_B = ___  (0=+, 1=-)                        │
+│                                                         │
+│  Paso 3: Identificar signo de Resultado                 │
+│          BMS_Y = ___  (0=+, 1=-)                        │
+│                                                         │
+│  Paso 4: Aplicar regla                                  │
+│          ☐ A y B mismo signo, Y diferente → OVERFLOW   │
+│          ☐ A y B diferente signo → SIN OVERFLOW        │
+│          ☐ A y B mismo signo, Y igual → SIN OVERFLOW   │
+│                                                         │
+│  CONCLUSIÓN: ______________________________            │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+
+MÉTODO 2: ANÁLISIS DE ACARREOS (Más riguroso)
+┌─────────────────────────────────────────────────────────┐
+│                                                         │
+│  Paso 1: En la columna del BMS, identificar:            │
+│          Cin_BMS = ___ (acarreo que ENTRA)              │
+│          Cout_BMS = ___ (acarreo que SALE)              │
+│                                                         │
+│  Paso 2: ¿Cin_BMS ≠ Cout_BMS?                           │
+│          ☐ SÍ (son distintos)                           │
+│          ☐ NO (son iguales)                             │
+│                                                         │
+│  Paso 3: ¿BMS_A = BMS_B?                                │
+│          ☐ SÍ (mismo signo)                             │
+│          ☐ NO (distinto signo)                          │
+│                                                         │
+│  Paso 4: OVERFLOW = (Mismo signo) AND (Acarreos dist.)  │
+│          ☐ SÍ, HAY OVERFLOW                             │
+│          ☐ NO, SIN OVERFLOW                             │
+│                                                         │
+│  CONCLUSIÓN: ______________________________            │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Plantilla 4: Tabla de Conversión Binaria Rápida
+
+```
+╔═══════════════════════════════════════════════════════════════╗
+║         CONVERSIÓN BINARIA - HOJA DE CÁLCULO RÁPIDA           ║
+╚═══════════════════════════════════════════════════════════════╝
+
+PARTE ENTERA: Decimal → Binario (Divisiones por 2)
+
+ Decimal ÷ 2 │ Cociente │ Resto │ Decimal ÷ 2 │ Cociente │ Resto
+─────────────┼──────────┼───────┼─────────────┼──────────┼───────
+ _____  ÷ 2  │  _____   │  __   │  _____  ÷ 2  │  _____   │  __
+ _____  ÷ 2  │  _____   │  __   │  _____  ÷ 2  │  _____   │  __
+ _____  ÷ 2  │  _____   │  __   │  _____  ÷ 2  │  _____   │  __
+ _____  ÷ 2  │  _____   │  __   │  _____  ÷ 2  │  _____   │  __
+ _____  ÷ 2  │  _____   │  __   │  _____  ÷ 2  │  _____   │  __
+ _____  ÷ 2  │  _____   │  __   │  _____  ÷ 2  │  _____   │  __
+ _____  ÷ 2  │  _____   │  __   │  _____  ÷ 2  │  _____   │  __
+
+RESULTADO (leer restos de abajo a arriba):
+(___________)₁₀ = (________________)₂
+
+
+PARTE FRACCIONARIA: Decimal → Binario (Multiplicaciones × 2)
+
+Fracción × 2 │ Resultado │ Bit │ Fracción × 2 │ Resultado │ Bit
+──────────────┼───────────┼─────┼──────────────┼───────────┼─────
+  0,______ × 2 │  _,_____  │  _  │   0,______ × 2 │  _,_____  │  _
+  0,______ × 2 │  _,_____  │  _  │   0,______ × 2 │  _,_____  │  _
+  0,______ × 2 │  _,_____  │  _  │   0,______ × 2 │  _,_____  │  _
+  0,______ × 2 │  _,_____  │  _  │   0,______ × 2 │  _,_____  │  _
+  0,______ × 2 │  _,_____  │  _  │   0,______ × 2 │  _,_____  │  _
+
+RESULTADO (leer bits de arriba a abajo):
+(0,__________)₁₀ = (0,____________)₂
+
+
+RESULTADO FINAL EN Q1.a.b:
+(Signo|_____Enteros_____|_____Fraccionarios_____)₂
+```
+
+---
+
+## 🖨️ INSTRUCCIONES PARA IMPRIMIR
+
+**Para usar en el examen:**
+
+1. Imprime estas plantillas en **papel blanco (oficio o carta)**
+2. Usa **lápiz o birome** para escribir (poder borrar ayuda)
+3. Rellena los espacios en blanco siguiendo los pasos
+4. Usa las plantillas para TODOS los ejercicios del parcial
+
+**Recomendaciones:**
+- Imprime 2-3 copias de cada plantilla (por si necesitas reintentar)
+- Ten a mano la **Tabla de Verdad de Suma Binaria**
+- Ten a mano la **Tabla de Referencia Rápida**
+- Verifica con el **Checklist** antes de entregar
+
+---
+
 ## Fuentes
 
 - Clase presencial UNAHUR 2026-08-18 (Clase II)
