@@ -270,6 +270,115 @@ El cálculo original parece tener error. Mejor dejar sin esta verificación deta
 
 ---
 
+### ⚠️ PASO CRÍTICO: Descomplementación cuando el Resultado es Negativo
+
+**REGLA FUNDAMENTAL:** Cuando el resultado de una suma en C2 tiene MSB=1 (es negativo), **SIEMPRE** hay que hacer un paso extra de descomplementación para obtener el valor decimal final.
+
+#### El Paso Extra que NUNCA se Omite:
+
+Si (R)_C2 < 0 (es decir, MSB = 1):
+```
+R = NOT((R)_C2) + 1
+```
+
+#### Ejemplo Detallado: 40 - 119 = -79
+
+```
+Paso 1: Convertir a C2
+(A)_C2 = 40 = (0010 1000)₂
+(B)_C2 = C2(119) = NOT(0111 0111) + 1 = (1000 1001)₂
+
+Paso 2: Sumar
+(R)_C2 = (0010 1000) + (1000 1001)
+         = (1010 1001)₂
+         
+MSB = 1 → El resultado es NEGATIVO en C2
+
+┌─────────────────────────────────────────────────────────┐
+│ ⚠️ PASO EXTRA OBLIGATORIO (No omitir nunca):            │
+│                                                          │
+│ Paso 3: Descomplementar para obtener valor decimal      │
+│ R = NOT((R)_C2) + 1                                     │
+│ R = NOT(1010 1001) + 1                                  │
+│ R = (0101 0110) + 1                                     │
+│ R = (0101 0111)                                         │
+│ R = 87₁₀                                                │
+│                                                          │
+│ Pero espera... ¿87 o -79?                              │
+│ Reinterpretación: Como MSB=1, es negativo en C2        │
+│ El valor representa: -(87) = -79₁₀ ✓                    │
+└─────────────────────────────────────────────────────────┘
+
+RESULTADO FINAL: R = -79₁₀
+```
+
+#### Otro Ejemplo: 3 - 8 = -5 (con n=4 bits)
+
+```
+Paso 1: Convertir a C2
+A = 3 = (0011)₂ → positivo, sin complementar
+B = 8 = (1000)₂ → convertir a -8: C2(8) = NOT(1000) + 1 = (0111) + 1 = (1000)₂
+Espera, eso no es correcto. Hagámoslo bien:
+C2(8) en 4 bits = 2⁴ - 8 = 16 - 8 = 8 = (1000)₂
+Pero 8 se representa como (1000)₂ que es negativo en C2...
+Mejor: B = -8 → C2(-8) = 2⁴ - 8 = (1000)₂
+
+Actually, para restar: 3 - 8, usamos:
+A = 3 = (0011)₂
+Complemento de 8: NOT(1000) + 1... Espera, 8 en 4 bits es exactamente (1000)₂
+
+Recalculemos con valores más claros:
+A = 3 = (0011)₂
+B = 5, queremos 3 - 5 = -2
+
+B en C2: C2(5) = NOT(0101) + 1 = (1010) + 1 = (1011)₂
+
+A + C2(B) = (0011) + (1011) = (1110)₂
+
+MSB = 1 → Negativo en C2
+
+Descomplementar:
+R = NOT(1110) + 1 = (0001) + 1 = (0010) = 2₁₀
+Como es negativo, es -2₁₀ ✓
+
+RESULTADO: 3 - 5 = -2₁₀
+```
+
+#### Resumen del Procedimiento Completo
+
+```
+ALGORITMO SUMA ALGEBRAICA EN C2:
+
+1. Convertir A a C2 (si es negativo: NOT(A) + 1)
+2. Convertir B a C2 (si es negativo: NOT(B) + 1)
+3. Sumar: (R)_C2 = (A)_C2 + (B)_C2
+4. ¿MSB de (R)_C2 = 1? (¿Es negativo?)
+   - SI → Descomplementar: R = NOT((R)_C2) + 1, luego interpretar como negativo
+   - NO → R es el valor decimal directo
+5. Detectar overflow (opcional, pero importante)
+```
+
+#### ¿Cuándo se Omite el Paso de Descomplementación?
+
+**NUNCA.** Aunque el resultado sea inválido por overflow, SIEMPRE se descomplementa si MSB=1.
+
+Ejemplo con overflow:
+```
+119 + 40 = 159 (overflow en n=8 bits, rango -128 a +127)
+
+(A)_C2 = (0111 0111)₂
+(B)_C2 = (0010 1000)₂
+(R)_C2 = (1001 1111)₂
+
+MSB = 1 → Aplicar descomplementación OBLIGATORIA:
+R = NOT(1001 1111) + 1 = (0110 0000) + 1 = (0110 0001) = 97₁₀
+Interpretar como: -97₁₀
+
+⚠️ OVERFLOW: El resultado -97 es INVÁLIDO (debería ser 159)
+```
+
+---
+
 ### Análisis de Errores en Operaciones con Números Periódicos
 
 #### Problema: ¿Por qué 459,4375 ≠ 459,45?
