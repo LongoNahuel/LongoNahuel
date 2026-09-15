@@ -587,7 +587,7 @@ Las tablas de referencia están separadas al final del documento. Imprime el arc
 | **Cín** | Acarreo de entrada | Carry-in (entrada de acarreo en suma binaria) |
 | **Cout** | Acarreo de salida | Carry-out (salida de acarreo en suma binaria) |
 | **IEEE 754** | Estándar IEEE 754 | Estándar para punto flotante |
-| **Desborde** | Overflow | Cuando el resultado excede el rango válido |
+| **Overflow** | Overflow | Cuando el resultado excede el rango válido |
 
 ### Notas Importantes
 
@@ -600,7 +600,7 @@ Las tablas de referencia están separadas al final del documento. Imprime el arc
   - m = bits de enteros
   - n = bits de fraccionarios
 - **Factor de Escala**: 2^n (depende SOLO de n, los bits fraccionarios)
-- **Desborde (Overflow)**: Ocurre cuando operandos del mismo signo dan resultado de signo opuesto
+- **Overflow (Overflow)**: Ocurre cuando operandos del mismo signo dan resultado de signo opuesto
 
 ## Fuentes
 
