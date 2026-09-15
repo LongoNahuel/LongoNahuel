@@ -1,0 +1,629 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<style>:root{color-scheme:light dark;--md-bg:#fff;--md-text:rgba(0,0,0,.8);--md-muted:rgba(0,0,0,.6);--md-fill:rgba(0,0,0,.04);--md-fill-strong:rgba(0,0,0,.06);--md-rule:rgba(0,0,0,.1);--md-rule-strong:rgba(0,0,0,.16);--md-link:hsl(210 100% 45%)}@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){--md-bg:#0d0d0d;--md-text:rgba(255,255,255,.85);--md-muted:rgba(255,255,255,.6);--md-fill:rgba(255,255,255,.06);--md-fill-strong:rgba(255,255,255,.09);--md-rule:rgba(255,255,255,.14);--md-rule-strong:rgba(255,255,255,.22);--md-link:hsl(210 100% 72%)}}:root[data-theme="dark"]{color-scheme:dark;--md-bg:#0d0d0d;--md-text:rgba(255,255,255,.85);--md-muted:rgba(255,255,255,.6);--md-fill:rgba(255,255,255,.06);--md-fill-strong:rgba(255,255,255,.09);--md-rule:rgba(255,255,255,.14);--md-rule-strong:rgba(255,255,255,.22);--md-link:hsl(210 100% 72%)}:root[data-theme="light"]{color-scheme:light}@media print{:root,:root[data-theme="dark"]{color-scheme:light;--md-bg:#fff;--md-text:rgba(0,0,0,.8);--md-muted:rgba(0,0,0,.6);--md-fill:rgba(0,0,0,.04);--md-fill-strong:rgba(0,0,0,.06);--md-rule:rgba(0,0,0,.1);--md-rule-strong:rgba(0,0,0,.16);--md-link:hsl(210 100% 45%)}}body{background:var(--md-bg);color:var(--md-text);max-width:720px;margin:0 auto;padding:32px;display:flex;flex-direction:column;gap:10px;font:14px/1.55 -apple-system,BlinkMacSystemFont,'SF Pro','Segoe UI',sans-serif;overflow-wrap:break-word}body>:first-child{margin-top:0}h1,h2,h3,h4,h5,h6{margin:6px 0 0;line-height:1.25;font-weight:600;text-wrap:balance}h1{font-size:1.35em}h2{font-size:1.15em;color:var(--md-muted)}h3,h4,h5,h6{font-size:1em}p,ul,ol,blockquote,table,pre,hr{margin:0}strong{font-weight:600}a{color:var(--md-link);text-decoration:none}a:hover{text-decoration:underline}ul,ol{display:flex;flex-direction:column;gap:6px;padding-left:22px}ul{list-style:disc}ol{list-style:decimal}:is(li,td,th)>*+:is(p,ul,ol,blockquote){margin-top:6px}blockquote{display:flex;flex-direction:column;gap:10px;border-left:2px solid var(--md-rule);padding-left:10px;color:var(--md-muted)}:not(pre)>code{background:var(--md-fill);padding:1px 3px;border-radius:4px;font:.92em 'SF Mono',ui-monospace,Menlo,Consolas,monospace}a>code{background:none;color:inherit}pre{background:var(--md-fill);padding:10px 12px;border-radius:6px;overflow-x:auto;font:12px/1.5 'SF Mono',ui-monospace,Menlo,Consolas,monospace;margin-block:4px}pre code{background:none;padding:0;font:inherit}table{width:100%;border-collapse:separate;border-spacing:2px;font:inherit}th,td{padding:6px 8px;border-radius:3px;text-align:left;vertical-align:top}th{background:var(--md-fill-strong);font-weight:600}td{background:var(--md-fill)}:is(th,td) :not(pre)>code{background:transparent}hr{border:0;border-top:1px solid var(--md-rule-strong);margin-block:10px}img{max-width:100%;height:auto;border-radius:4px}</style>
+<hr>
+<h2>materia: Organización de Computadoras I
+universidad: UNAHUR
+tipo: apuntes-clase
+tags: [unahur, organizacion-computadoras, facultad, apuntes, sistemas-numericos, algebra-binaria, suma-binaria, overflow, punto-fijo, punto-flotante, multiplicacion-binaria, datos-multiregistro, big-endian, little-endian]
+actualizado: 2026-09-15
+fuentes: [Clase presencial UNAHUR 2026-08-18 (Clase II), Clase presencial UNAHUR 2026-09-15 (Clase VI)]</h2>
+<h1>Organización de Computadoras I — UNAHUR</h1>
+<p><strong>Apuntes completos de clases presenciales — Clase II (18/08/2026) + Clase VI (15/09/2026)</strong></p>
+<p>Centralización de todo el contenido de la materia en un único archivo de referencia.
+Cubre: sistemas numéricos, conversión de bases, álgebra binaria, suma binaria en punto fijo, inverso aditivo, overflow, multiplicación binaria, operaciones en punto flotante, datos multiregistro y endianness.</p>
+
+<hr>
+<h2>Clase I — 2026-08-18</h2>
+<h3>Estructura Numérica</h3>
+<p>En aritmética, álgebra y análisis matemático, un sistema o <strong>estructura numérica</strong> es un conjunto de números provisto de operaciones que verifican ciertas condiciones relacionadas con las propiedades conmutativa, asociativa y distributiva.</p>
+<ul>
+<li><em>Propiedad conmutativa de la adición</em>: a + b = b + a</li>
+<li><em>Propiedad asociativa de la adición</em>: (a + b) + c = a + (b + c)</li>
+<li><em>Propiedad asociativa de la multiplicación</em>: (a·b)·c = a·(b·c)</li>
+<li><em>Propiedad distributiva de la multiplicación</em>: a·(b + c) = a·b + a·c</li>
+</ul>
+<p>Son ejemplos de estructuras numéricas los números <strong>naturales (N)</strong>, los <strong>enteros (Z)</strong>, los <strong>racionales (Q)</strong> o los <strong>reales (R)</strong>.</p>
+
+<h3>Propiedades de la Potenciación</h3>
+<p><strong>Potencia 0 de la base:</strong> Todo número elevado a la potencia cero dará 1 como resultado: $n^0 = 1$</p>
+<p><strong>Potencia de Potencia:</strong> $(a^m)^n = a^{m \cdot n}$</p>
+<p><strong>Potencias de exponentes negativos:</strong> $n^{-m} = \frac{1}{n^m}$</p>
+
+<h3>Sistemas Numéricos</h3>
+<h4>Sistema Binario (Base 2)</h4>
+<p>Utiliza 2 símbolos: {0, 1}. Fórmula: $N = \sum_{i=-m}^{n-1} b_i \cdot 2^i$</p>
+<p><strong>Ejemplo:</strong> $1011_2 = 1 \cdot 2^3 + 0 \cdot 2^2 + 1 \cdot 2^1 + 1 \cdot 2^0 = 11_{10}$</p>
+
+<h4>Sistema Decimal (Base 10)</h4>
+<p>Utiliza 10 símbolos: {0–9}. Fórmula: $N = \sum_{i=-m}^{n-1} d_i \cdot 10^i$</p>
+
+<h4>Sistema Hexadecimal (Base 16)</h4>
+<p>Utiliza 16 símbolos: {0–9, A–F}. Fórmula: $N = \sum_{i=-m}^{n-1} h_i \cdot 16^i$</p>
+<p><strong>Ejemplo:</strong> $1A3_{16} = 1 \cdot 16^2 + 10 \cdot 16^1 + 3 \cdot 16^0 = 419_{10}$</p>
+
+<h4>Sistema Octal (Base 8)</h4>
+<p>Utiliza 8 símbolos: {0–7}. Fórmula: $N = \sum_{i=-m}^{n-1} o_i \cdot 8^i$</p>
+
+<h3>Teorema Fundamental de la Enumeración</h3>
+<p><strong>Fórmula general para convertir cualquier base B a decimal:</strong></p>
+<p>$$N = \sum_{i=-m}^{n-1} A_i \cdot B^i$$</p>
+<p>Donde $n$ = cantidad de dígitos en la parte entera, $m$ = cantidad de dígitos en la parte fraccionaria, $A_i$ = dígito en posición $i$, $B$ = base.</p>
+
+<h3>Unidades de Almacenamiento Binario</h3>
+<table>
+<thead>
+<tr>
+<th>Unidad</th>
+<th>Símbolo</th>
+<th>Potencia</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>Kilobyte</strong></td><td>KB</td><td>$2^{10}$</td><td>1,024</td></tr>
+<tr><td><strong>Megabyte</strong></td><td>MB</td><td>$2^{20}$</td><td>1,048,576</td></tr>
+<tr><td><strong>Gigabyte</strong></td><td>GB</td><td>$2^{30}$</td><td>1,073,741,824</td></tr>
+<tr><td><strong>Terabyte</strong></td><td>TB</td><td>$2^{40}$</td><td>1,099,511,627,776</td></tr>
+</tbody>
+</table>
+
+<hr>
+<h2>Clase VI — 2026-09-15</h2>
+<h3>Álgebra Binaria y en Otras Bases</h3>
+
+<h4>Expresión de Números en Punto Fijo</h4>
+<p><strong>Definición:</strong> Punto fijo es una representación numérica donde la posición de la coma decimal está predeterminada y fija. Se utiliza el formato <strong>Q(signo).(enteros).(fraccionarios)</strong>.</p>
+
+<p><strong>Notación Q:</strong></p>
+<ul>
+<li><strong>Q[s].m.n:</strong> Donde s indica bits de signo, m bits para enteros, n bits para fraccionarios</li>
+<li><strong>Q0.m.n:</strong> Sin signo (números positivos solamente) → Total: m + n bits</li>
+<li><strong>Q1.m.n:</strong> Con signo (C2) → Total: 1 + m + n bits</li>
+</ul>
+
+<p><strong>REGLA FUNDAMENTAL - Factor de Escala:</strong></p>
+<p>$$\text{Factor de escala} = 2^n$$</p>
+<p><em>Donde n = ÚLTIMO NÚMERO en la notación Q (bits fraccionarios)</em></p>
+<p><strong>Ejemplos:</strong></p>
+<ul>
+<li>Q0.10.4 → n=4 → Factor = 2^4 = 16</li>
+<li>Q0.10.6 → n=6 → Factor = 2^6 = 64</li>
+<li>Q1.12.5 → n=5 → Factor = 2^5 = 32</li>
+<li>Q1.16.8 → n=8 → Factor = 2^8 = 256</li>
+</ul>
+<p><strong>El factor de escala DEPENDE SOLO del número de bits fraccionarios, no del signo ni de los enteros.</strong></p>
+
+<p><strong>Proceso para expresar un número decimal en punto fijo:</strong></p>
+<ol>
+<li><strong>Separar partes:</strong> Dividir el número en parte entera y fraccionaria. Ej: 279,75 → entero=279, fraccionario=0,75</li>
+<li><strong>Convertir a binario:</strong>
+  <ul>
+  <li>Parte entera: división sucesiva entre 2</li>
+  <li>Parte fraccionaria: multiplicación sucesiva por 2, tomar bit más significativo</li>
+  </ul>
+</li>
+<li><strong>Verificar capacidad:</strong> Chequear que los bits disponibles sean suficientes para representar ambas partes</li>
+<li><strong>Alinear según formato Q:</strong> Rellenar con ceros según sea necesario para cumplir m bits de enteros y n bits de fraccionarios</li>
+<li><strong>Aplicar representación C2:</strong> Si es negativo, aplicar complemento a 2</li>
+<li><strong>Multiplicar por factor de escala:</strong> Multiplicar por 2^n para obtener un entero equivalente que se pueda operar</li>
+</ol>
+
+<p><strong>Ejemplo paso a paso: Convertir 279,75 a Q0.10.4</strong></p>
+<p><em>Significado: 1 bit de signo, 10 bits para enteros, 4 bits para fraccionarios</em></p>
+
+<p><strong>Paso 1: Separar</strong><br>
+279 (entero), 0,75 (fraccionario)</p>
+
+<p><strong>Paso 2: Convertir a binario</strong><br>
+279₁₀ = 256 + 16 + 4 + 2 + 1 = (0100010111)₂<br>
+0,75 = 0,5 + 0,25 = (0,11)₂</p>
+
+<p><strong>Paso 3: Verificar capacidad</strong><br>
+Entero: (0100010111)₂ → 10 bits ✓<br>
+Fraccionario: (0,11)₂ → 2 bits, necesito 4 bits → rellenar con ceros</p>
+
+<p><strong>Paso 4: Alinear según Q0.10.4</strong><br>
+(0) 0100010111 . 1100<br>
+Signo=0 (positivo), Entero=0100010111, Fraccionario=1100</p>
+
+<p><strong>Paso 5: Aplicar C2 (en este caso positivo, identidad)</strong><br>
+Resultado en C2 = (0 0100010111 1100) en punto fijo</p>
+
+<p><strong>Paso 6: Multiplicar por factor de escala 2⁴=16</strong><br>
+279,75 × 16 = 4476₁₀ = (10001011 11100)₂<br>
+Se trata como un entero de 15 bits durante operaciones</p>
+
+<h4>Suma Binaria en Punto Fijo</h4>
+<p><strong>Procedimiento de suma en punto fijo:</strong></p>
+<ol>
+<li>Convertir ambos números al mismo formato Q</li>
+<li>Multiplicar ambos por el factor de escala 2^n</li>
+<li>Realizar suma algebraica en C2</li>
+<li>Dividir el resultado por 2^n para restaurar la posición de la coma</li>
+</ol>
+
+<p><strong>Ejemplo COMPLETO: Y = A + B en formato Q0.10.4</strong></p>
+<p>Datos: A = (279,75)₁₀, B = (179,7)₁₀, Arquitectura: 14 bits</p>
+
+<p><strong>Paso 1: Convertir a binario</strong></p>
+<pre>A = (279,75)₁₀ = (100010111,11)₂         [conversión exacta]
+B = (179,7)₁₀ = (10110011,10110011...)₂  [conversión periódica, error]</pre>
+
+<p><strong>Paso 2: Ajustar al formato Q0.10.4</strong></p>
+<p><em>Q0 = SIN SIGNO, Enteros(10) + Fraccionarios(4) = 14 bits totales</em></p>
+<pre>A = (0100010111|1100)₂  [entero=0100010111 (10 bits), fraccionario=1100 (4 bits)]
+B = (0010110011|1011)₂  [entero=0010110011 (10 bits), fraccionario=1011 (4 bits)]</pre>
+
+<p><strong>Paso 3: Multiplicar por factor de escala 2⁴ = 16</strong></p>
+<p>Convertimos a enteros para realizar operación aritmética:</p>
+<pre>A × 16 = 279,75 × 16 = 4476₁₀ = (01000101111100)₂
+B × 16 = 179,7 × 16 = 2875,2 ≈ 2875₁₀ = (00101100111011)₂</pre>
+
+<p><strong>Paso 4: Realizar suma binaria (C2, ambos positivos)</strong></p>
+<p><em>Nota: Se escriben los acarreos ARRIBA para mayor claridad</em></p>
+<pre>          1 1 1 1      ← Acarreos (Cout de cada columna)
+    0 1 0 0 0 1 0 1 1 1 1 1 0 0    (4476₁₀)
+  + 0 0 1 0 1 1 0 0 1 1 1 0 1 1    (2875₁₀)
+  ─────────────────────────────────
+    0 1 1 1 0 0 1 0 1 1 0 1 1 1    (7351₁₀)</pre>
+
+<p><strong>Verificación decimal:</strong> 4476 + 2875 = 7351 ✓</p>
+
+<p><strong>Paso 5: Verificar overflow</strong></p>
+<p>Ambos operandos positivos (signo=0), resultado positivo (signo=0) → <strong>SIN OVERFLOW</strong></p>
+
+<p><strong>Paso 6: Dividir por factor de escala para restaurar punto fijo</strong></p>
+<pre>7351 ÷ 16 = 459,4375₁₀
+
+En binario con punto fijo Q0.10.4:
+(0111001011|0111)₂ = 459,4375₁₀
+ 10 bits enteros  4 bits fraccionarios</pre>
+
+<p><strong>RESULTADO FINAL: Y = (459,4375)₁₀ en formato Q0.10.4 (14 bits sin signo)</strong></p>
+
+<p><em>Nota: Hay pérdida de precisión en B por truncamiento en la fracción periódica, pero el proceso es correcto.</em></p>
+
+<h4>Ejemplos de OVERFLOW (n=4 bits, Rango: -8 a +7)</h4>
+
+<p><strong>CASO 1: 5 + 4 = 9 (OVERFLOW)</strong> - Dos positivos dan negativo</p>
+<pre>Operandos:
+A = 5₁₀ = (0101)₂
+B = 4₁₀ = (0100)₂
+
+Suma binaria:
+    ¹¹¹
+    0101
+  + 0100
+  ──────
+    1001
+
+Resultado: (1001)₂
+MSB = 1 → Negativo
+
+Interpretar en C2:
+C2(1001) = NOT(1001) + 1 = (0110) + 1 = (0111) = 7
+Resultado interpretado: -7₁₀ ✗
+
+DETECCIÓN DE OVERFLOW:
+✓ Operando A: positivo (MSB=0)
+✓ Operando B: positivo (MSB=0)
+✗ Resultado: negativo (MSB=1)
+→ OVERFLOW DETECTADO (signos opuestos)</pre>
+
+<p><strong>CASO 2: -5 - 3 = -8 (OVERFLOW)</strong> - Dos negativos dan positivo</p>
+<pre>Operandos:
+A = -5: C2(-5) = 2⁴ - 5 = 11₁₀ = (1011)₂
+B = -3: C2(-3) = 2⁴ - 3 = 13₁₀ = (1101)₂
+
+Suma binaria:
+    ¹¹¹¹
+    1011
+  + 1101
+  ──────
+  (1)1000
+
+Descartamos carry → (1000)₂
+
+Resultado: (1000)₂
+MSB = 1 → Negativo
+
+Interpretar en C2:
+C2(1000) = NOT(1000) + 1 = (0111) + 1 = (1000)
+(En 4 bits, 1000 en C2 = -8, es caso especial)
+
+DETECCIÓN DE OVERFLOW:
+✓ Operando A: negativo (MSB=1)
+✓ Operando B: negativo (MSB=1)
+✓ Resultado: negativo (MSB=1)
+→ SIN OVERFLOW (signos iguales)</pre>
+
+<p><strong>NOTA:</strong> El rango de n=4 bits es -8 a +7. El número -8 es especial en C2 (no tiene opuesto positivo en ese rango).</p>
+
+<p><strong>CASOS CON n=8 BITS (Rango: -128 a +127):</strong></p>
+
+<p><strong>CASO 3: 119 + 40 = 159 (OVERFLOW)</strong> - Dos positivos dan negativo</p>
+<pre>Operandos:
+A = 119₁₀ = (0111 0111)₂
+B = 40₁₀ = (0010 1000)₂
+
+Suma binaria (con acarreos arriba):
+    ¹0110000
+    0111 0111  (119)
+  + 0010 1000  (40)
+  ───────────
+    1001 1111
+
+Resultado: (1001 1111)₂
+MSB = 1 → Negativo
+
+Interpretar en C2:
+C2(1001 1111) = NOT(1001 1111) + 1 = (0110 0000) + 1 = (0110 0001) = 97
+Resultado interpretado: -97₁₀ ✗
+
+DETECCIÓN DE OVERFLOW:
+✓ Operando A: positivo (MSB=0)
+✓ Operando B: positivo (MSB=0)
+✗ Resultado: negativo (MSB=1)
+
+→ OVERFLOW DETECTADO
+(El resultado debería ser 159 pero excede rango +127)</pre>
+
+<p><strong>CASO 4: -119 - 40 = -159 (OVERFLOW)</strong> - Dos negativos dan positivo</p>
+<pre>Operandos:
+A = -119: C2(-119) = 256 - 119 = 137₁₀ = (1000 1001)₂
+B = -40: C2(-40) = 256 - 40 = 216₁₀ = (1101 1000)₂
+
+Suma binaria (con acarreos arriba):
+    ¹0011000
+    1000 1001  (-119)
+  + 1101 1000  (-40)
+  ───────────
+  (1)0110 0001  → Descartamos carry
+
+Resultado: (0110 0001)₂
+MSB = 0 → Positivo
+
+Interpretar: (0110 0001) = 97₁₀ ✗
+
+DETECCIÓN DE OVERFLOW:
+✓ Operando A: negativo (MSB=1)
+✓ Operando B: negativo (MSB=1)
+✗ Resultado: positivo (MSB=0)
+
+→ OVERFLOW DETECTADO
+(El resultado debería ser -159 pero excede rango -128)</pre>
+
+<h4>Análisis y Justificación del Error (Para el Examen Parcial)</h4>
+<p><strong>Pregunta típica del examen:</strong> "¿Por qué el resultado obtenido (459,4375) difiere del resultado exacto esperado (459,45)? Justifique."</p>
+
+<p><strong>Respuesta esperada (estructura):</strong></p>
+
+<p><strong>1. Identificar la causa del error:</strong></p>
+<ul>
+<li>B = 179,7₁₀ tiene fracción periódica en binario: 0,7₁₀ = (0,101100110110...)₂</li>
+<li>Al ajustar a Q0.10.4, se truncan los bits fraccionarios a solo 4 dígitos</li>
+<li>Se pierde precisión en la representación de B</li>
+</ul>
+
+<p><strong>2. Cuantificar el error:</strong></p>
+<ul>
+<li>Valor original de B: 179,7₁₀</li>
+<li>Valor en Q0.10.4: 179,6875₁₀ (truncado a (0,1011)₂)</li>
+<li>Error en B: 0,7 - 0,6875 = 0,0125₁₀</li>
+</ul>
+
+<p><strong>3. Propagar el error al resultado:</strong></p>
+<ul>
+<li>Suma exacta: 279,75 + 179,7 = 459,45₁₀</li>
+<li>Suma en punto fijo: 279,75 + 179,6875 = 459,4375₁₀</li>
+<li>Error final: 459,45 - 459,4375 = 0,0125₁₀ (idéntico al error de B)</li>
+</ul>
+
+<p><strong>4. Conclusión para el examen:</strong></p>
+<p><em>"El error de 0,0125 no es un error de cálculo, sino de REPRESENTACIÓN. Es consecuencia inevitable de truncar un número periódico en binario (0,7) al formato Q0.10.4. Este error es ACEPTABLE y ESPERADO en operaciones con punto fijo cuando se trabajan con números periódicos."</em></p>
+
+<h4>Inverso Aditivo y Complemento a 2</h4>
+<p>Si existe un inverso aditivo del número B tal que B + B' = 0, entonces -B = B'</p>
+<p>El <strong>complemento a 2 (C2)</strong> se define como: $C2(B) = 2^n - B$</p>
+<p>En un sistema de representación de n bits: $2^n = 0$, entonces:</p>
+<p><strong>El complemento a la base de un número será su complemento aditivo.</strong></p>
+<p>$$C2(B) = -B \quad \text{y} \quad A - B = A + C2(B)$$</p>
+
+<p><strong>Fórmula para calcular complemento a 2:</strong></p>
+<ul>
+<li>Si el número es positivo: $C2(B) = B$ (identidad)</li>
+<li>Si el número es negativo: $C2(B) = 2^n - |B| = NOT(B) + 1$ (complemento bit a bit más 1)</li>
+</ul>
+
+<h4>Suma Algebraica de Reales con Signo en C2</h4>
+<p><strong>Procedimiento:</strong></p>
+<ol>
+<li>Identificar si los operandos son positivos o negativos</li>
+<li>Convertir a representación C2 si es necesario</li>
+<li>Realizar suma bit a bit con acarreo</li>
+<li>Verificar si existe overflow analizando el signo del resultado</li>
+<li>Des-representar el resultado si es negativo</li>
+</ol>
+
+<p><strong>Ejemplo 1: 119 - 40 = 79</strong></p>
+<p>A = 119 = (0111 0111)₂ en C2</p>
+<p>B = -40, C2(-40) = 216 = (1101 1000)₂</p>
+<p>A + C2(B) = (0111 0111) + (1101 1000) = (1 0100 1111)₂ = (459)₁₀ >> (79)₁₀ ✓</p>
+
+<p><strong>Ejemplo 2: 40 - 119 = -79</strong></p>
+<p>A = 40 = (0010 1000)₂ en C2</p>
+<p>B = 119, C2(119) = 137 = (1000 1001)₂</p>
+<p>Resultado: (1011 0001)₂ en C2 = -79 ✓</p>
+
+<h4>Desborde u Overflow</h4>
+<p><strong>Condición de Overflow:</strong> Solo puede haber overflow en una suma algebraica cuando <strong>ambos operandos tienen el mismo signo pero el resultado tiene signo opuesto</strong>.</p>
+
+<p><strong>Indicadores de Overflow:</strong></p>
+<ul>
+<li>El resultado de sumar dos números positivos es negativo</li>
+<li>El resultado de sumar dos números negativos es positivo</li>
+<li>El Cin y Cout del bit más significativo (MSB) difieren</li>
+</ul>
+
+<p><strong>Nota importante:</strong> Al sumar números en C2, el valor del carry-out final NO indica nada (es aparente). El desborde se detecta por el cambio de signo.</p>
+
+<h4>Multiplicación por 2 en Base 2 (Desplazamiento)</h4>
+<p>En el sistema binario, multiplicar/dividir por 2 equivale a correr la coma una posición a la derecha o izquierda, agregando ceros que haga falta.</p>
+<p><strong>Ejemplo:</strong> $(1101,01)_2 \times 2 = (11010,1)_2$ y $(1101,01)_2 \div 2 = (110,101)_2$</p>
+
+<p><strong>Justificación por el Teorema Fundamental:</strong></p>
+<p>Si $A = \sum A_i \cdot 2^i$, entonces $2A = \sum A_i \cdot 2^{i+1}$, desplazando todos los dígitos una posición hacia la izquierda.</p>
+
+<h4>Tabla de Verdad de Suma Binaria (Sumador de 1 Bit)</h4>
+<p><em>Todas las combinaciones posibles para sumar dos bits (A + B) con acarreo de entrada (Cin)</em></p>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>Cin</th>
+<th>Suma (S)</th>
+<th>Cout</th>
+<th>Operación</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0 + 0 + 0 = 0</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0 + 0 + 1 = 1</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0 + 1 + 0 = 1</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0 + 1 + 1 = 10₂ → S=0, Cout=1</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1 + 0 + 0 = 1</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1 + 0 + 1 = 10₂ → S=0, Cout=1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1 + 1 + 0 = 10₂ → S=0, Cout=1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1 + 1 + 1 = 11₂ → S=1, Cout=1</td></tr>
+</tbody>
+</table>
+
+<p><strong>Interpretación:</strong></p>
+<ul>
+<li><strong>Cin:</strong> Acarreo de entrada (carry-in) de la columna anterior</li>
+<li><strong>S (Suma):</strong> El resultado en esa posición</li>
+<li><strong>Cout:</strong> Acarreo de salida (carry-out) para la siguiente columna</li>
+<li><strong>Regla:</strong> Si la suma de (A + B + Cin) ≥ 2, hay acarreo (Cout=1)</li>
+</ul>
+
+<h4>Multiplicación Binaria</h4>
+<p>Una multiplicación binaria realizada manualmente implica una secuencia de:</p>
+<ul>
+<li>Multiplicaciones por 2 (desplazamientos a izquierda)</li>
+<li>Sumas sucesivas</li>
+</ul>
+
+<p><strong>Ejemplo:</strong> Multiplicando = 1011₂, Multiplicador = 101₂</p>
+<pre>    1011
+  ×  101
+  ------
+    1011   (1 × 1011)
+   0000_   (0 × 1011, desplazado)
+  1011__   (1 × 1011, desplazado 2 veces)
+  ------
+  110111   (Resultado = 55₁₀)</pre>
+
+<p>En una ALU, esto se implementa con un <strong>registro de desplazamiento</strong> para el multiplicando y un sumador para acumular los resultados parciales.</p>
+
+<h4>Operaciones en Punto Fijo</h4>
+<p><strong>Suma:</strong> Si los factores de escala son distintos (eA ≠ eB), se modifica el sumando con mayor exponente para alinear los puntos fijos virtuales, luego se realiza suma algebraica en C2.</p>
+
+<p><strong>Producto:</strong> Se multiplican las partes enteras sin complementar y se suman los exponentes de los factores de escala. El signo sigue la XOR de los signos:</p>
+<p>$$C = (-1)^{(s_A \oplus s_B)} \cdot (Z_A \times Z_B) \cdot 2^{(e_A + e_B)}$$</p>
+
+<h4>Operaciones en Punto Flotante</h4>
+<p><strong>⚠️ DIFERENCIA CRÍTICA CON PUNTO FIJO:</strong></p>
+<p><strong>EN PUNTO FLOTANTE NO SE COMPLEMENTA NADA.</strong> Solo se anota un bit de signo (0=positivo, 1=negativo).</p>
+<p><strong>Estructura:</strong> Signo (1 bit) | Exponente | Mantisa (en binario, sin complementar)</strong></p>
+
+<p>Un número en punto flotante se representa como: $A = (-1)^{s_A} \times M_A \times 2^{e_A}$</p>
+
+<p><strong>Suma:</strong> Si $e_A \neq e_B$, se modifica uno de los sumandos para que su exponente coincida, luego se suman algebraicamente las mantisas conservando el exponente común.</p>
+
+<p><strong>Producto:</strong> $C = (-1)^{(s_A \oplus s_B)} \times (M_A \times M_B) \times 2^{(e_A + e_B)}$</p>
+<ul>
+<li>El signo del resultado es XOR de los signos de los operandos</li>
+<li>La mantisa es el producto de las mantisas (sin signo)</li>
+<li>El exponente es la suma de exponentes (con ajuste por sesgo)</li>
+<li>Puede requerirse normalización del resultado</li>
+</ul>
+
+<h4>Datos Multiregistro</h4>
+<p><strong>Unidades de datos:</strong></p>
+<ul>
+<li><strong>Bit (b):</strong> La menor cantidad de información (2¹ = 1 estado)</li>
+<li><strong>Nibble:</strong> 4 bits = ½ byte, asociado a hexadecimal (2⁴ = 16 valores)</li>
+<li><strong>Byte (B):</strong> 8 bits, codifica un carácter (2⁸ = 256 valores)</li>
+<li><strong>Word (palabra):</strong> Ancho arbitrario según arquitectura (típicamente 16, 32 o 64 bits)</li>
+<li><strong>DWORD:</strong> Doble palabra (32 bits en arquitectura x86)</li>
+<li><strong>QWORD:</strong> Cuádruple palabra (64 bits en arquitectura x86)</li>
+</ul>
+
+<h4>Big Endian vs Little Endian</h4>
+<p>Cuando el largo de una palabra excede al ancho de una posición de memoria, se almacena dividida en varios bytes con dos convenciones posibles:</p>
+
+<p><strong>Big Endian:</strong> El fragmento más significativo (MSB) se almacena primero, en la dirección de memoria más baja.</p>
+
+<p><strong>Little Endian:</strong> El fragmento menos significativo (LSB) se almacena primero, en la dirección de memoria más baja.</p>
+
+<p><strong>Ejemplo con número binario: 11000001 11100000 00000111 00000000</strong></p>
+<ul>
+<li><strong>Big Endian:</strong> MSB primero en dirección baja → 11000001, 11100000, 00000111, 00000000</li>
+<li><strong>Little Endian:</strong> LSB primero en dirección baja → 00000000, 00000111, 11100000, 11000001</li>
+</ul>
+
+<h4>Tabla de Potencias de 2 (Referencia Rápida)</h4>
+<p><em>Herramienta esencial para conversiones binarias sin cálculos manuales</em></p>
+<table>
+<thead>
+<tr>
+<th>Potencia</th>
+<th>Valor</th>
+<th>Potencia</th>
+<th>Valor</th>
+<th>Potencia</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>2^0</td><td>1</td><td>2^7</td><td>128</td><td>2^14</td><td>16,384</td></tr>
+<tr><td>2^1</td><td>2</td><td>2^8</td><td>256</td><td>2^15</td><td>32,768</td></tr>
+<tr><td>2^2</td><td>4</td><td>2^9</td><td>512</td><td>2^16</td><td>65,536</td></tr>
+<tr><td>2^3</td><td>8</td><td>2^10</td><td>1,024 (KB)</td><td>2^17</td><td>131,072</td></tr>
+<tr><td>2^4</td><td>16</td><td>2^11</td><td>2,048</td><td>2^18</td><td>262,144</td></tr>
+<tr><td>2^5</td><td>32</td><td>2^12</td><td>4,096</td><td>2^19</td><td>524,288</td></tr>
+<tr><td>2^6</td><td>64</td><td>2^13</td><td>8,192</td><td>2^20</td><td>1,048,576 (MB)</td></tr>
+</tbody>
+</table>
+
+<p><strong>Método rápido para convertir decimal a binario:</strong> Identifica qué potencias de 2 suman el número (de mayor a menor).</p>
+<p><strong>Ejemplo:</strong> 279 = 256(2^8) + 16(2^4) + 4(2^2) + 2(2^1) + 1(2^0) → bits: 8,4,2,1,0 → (100010111)₂</p>
+
+<h4>Números Decimales Exactos vs Periódicos en Binario</h4>
+<p><strong>Concepto crítico para punto fijo:</strong> No todos los decimales que son exactos en base 10 son exactos en base 2.</p>
+
+<p><strong>Números EXACTOS en binario:</strong> Solo aquellos cuyo denominador (en fracción irreducible) es potencia de 2.</p>
+<ul>
+<li>0,5₁₀ = 1/2 = (0,1)₂ ✓ Exacto</li>
+<li>0,25₁₀ = 1/4 = (0,01)₂ ✓ Exacto</li>
+<li>0,75₁₀ = 3/4 = (0,11)₂ ✓ Exacto</li>
+<li>0,125₁₀ = 1/8 = (0,001)₂ ✓ Exacto</li>
+</ul>
+
+<p><strong>Números PERIÓDICOS en binario:</strong> Cualquier otro, incluyendo 0,1 y 0,7</p>
+<ul>
+<li>0,1₁₀ = (0,0001100110011...)₂ ✗ Periódico</li>
+<li>0,7₁₀ = (0,101100110110...)₂ ✗ Periódico</li>
+<li>0,3₁₀ = (0,010011001100...)₂ ✗ Periódico</li>
+</ul>
+
+<p><strong>Impacto en punto fijo:</strong> Al truncar para cumplir con los bits de fraccionarios (ej: Q0.10.4), se pierde precisión.</p>
+
+<p><strong>Ejemplo del PDF:</strong> B = 179,7₁₀<br>
+179₁₀ = (10110011)₂ ✓ Exacto<br>
+0,7₁₀ = (0,101100110110...)₂ Periódico<br>
+Truncado a 4 bits: (0,1011)₂ = 0,6875₁₀ → Error de ≈0,0125</p>
+
+<hr>
+<h2>TABLAS DE REFERENCIA PARA IMPRIMIR (Examen Parcial)</h2>
+<p><em>Estas tablas son recomendadas para tener a mano durante el examen. Imprímelas y lleva copias.</em></p>
+
+<h3>Tabla 1: Suma Binaria (Tabla de Verdad - Sumador de 1 Bit)</h3>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>Cin</th>
+<th>Suma (S)</th>
+<th>Cout</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>
+</tbody>
+</table>
+
+<h3>Tabla 2: Potencias de 2</h3>
+<table>
+<thead>
+<tr>
+<th>Potencia</th>
+<th>Valor</th>
+<th>Potencia</th>
+<th>Valor</th>
+<th>Potencia</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>2^0</td><td>1</td><td>2^7</td><td>128</td><td>2^14</td><td>16,384</td></tr>
+<tr><td>2^1</td><td>2</td><td>2^8</td><td>256</td><td>2^15</td><td>32,768</td></tr>
+<tr><td>2^2</td><td>4</td><td>2^9</td><td>512</td><td>2^16</td><td>65,536</td></tr>
+<tr><td>2^3</td><td>8</td><td>2^10</td><td>1,024</td><td>2^17</td><td>131,072</td></tr>
+<tr><td>2^4</td><td>16</td><td>2^11</td><td>2,048</td><td>2^18</td><td>262,144</td></tr>
+<tr><td>2^5</td><td>32</td><td>2^12</td><td>4,096</td><td>2^19</td><td>524,288</td></tr>
+<tr><td>2^6</td><td>64</td><td>2^13</td><td>8,192</td><td>2^20</td><td>1,048,576</td></tr>
+</tbody>
+</table>
+
+<h3>Tabla 3: Conversiones Rápidas (Decimales Exactos en Binario)</h3>
+<table>
+<thead>
+<tr>
+<th>Decimal</th>
+<th>Binario (Fraccionario)</th>
+<th>Decimal</th>
+<th>Binario (Fraccionario)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>0,5</td><td>(0,1)₂</td><td>0,0625</td><td>(0,0001)₂</td></tr>
+<tr><td>0,25</td><td>(0,01)₂</td><td>0,03125</td><td>(0,00001)₂</td></tr>
+<tr><td>0,75</td><td>(0,11)₂</td><td>0,125</td><td>(0,001)₂</td></tr>
+<tr><td>0,375</td><td>(0,011)₂</td><td>0,875</td><td>(0,111)₂</td></tr>
+</tbody>
+</table>
+
+<hr>
+<h2>DIFERENCIA CRÍTICA: Punto Fijo vs Punto Flotante</h2>
+<table>
+<thead>
+<tr>
+<th>Característica</th>
+<th>Punto Fijo (C2)</th>
+<th>Punto Flotante (IEEE 754)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><strong>Representación de negativos</strong></td><td>Complemento a 2 (se complementa)</td><td>Bit de signo (0=+, 1=-)</td></tr>
+<tr><td><strong>¿Se complementa el número?</strong></td><td><strong>SÍ, siempre para negativos</strong></td><td><strong>NO, NUNCA</strong></td></tr>
+<tr><td><strong>Mantisa/Significando</strong></td><td>Se complementa si es negativo</td><td>Se pone en binario SIN complementar</td></tr>
+<tr><td><strong>Ejemplo: -5</strong></td><td>C2(0101) = (1011)₂</td><td>Signo=1, Mantisa=(0101)₂</td></tr>
+<tr><td><strong>¿Hay que volver a complementar?</strong></td><td>SÍ, para interpretar</td><td>NO, el signo lo indica</td></tr>
+</tbody>
+</table>
+
+<p><strong>NOTA FUNDAMENTAL PARA EL EXAMEN:</strong></p>
+<p>⚠️ <strong>PUNTO FLOTANTE NO UTILIZA COMPLEMENTO A 2.</strong> Solo usa un bit de signo. La mantisa se coloca en binario tal cual, sin complementación.</p>
+
+<hr>
+<h3>Notas Importantes</h3>
+<ul>
+<li>LSB (Least Significant Bit): Bit menos significativo, posición más a la derecha</li>
+<li>MSB (Most Significant Bit): Bit más significativo, posición más a la izquierda</li>
+<li>En suma algebraica con C2, el carry-out final es aparente y se descarta</li>
+<li>La multiplicación binaria es equivalente a desplazamientos y sumas sucesivas</li>
+<li>En punto flotante, la normalización es automática en operaciones correctas</li>
+<li><strong>CRÍTICO: Punto Fijo usa C2, Punto Flotante usa Signo+Mantisa (sin complementar)</strong></li>
+</ul>
+
+</body></html>
