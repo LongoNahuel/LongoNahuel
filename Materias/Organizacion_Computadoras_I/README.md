@@ -419,6 +419,98 @@ Interpretar como: -97₁₀
 
 ---
 
+## ⚠️ Detección de Overflow: Dos Métodos
+
+### Método 1: Comparación de Signos (Visual y Rápido)
+
+**Condición:** Overflow ocurre cuando operandos del **mismo signo** dan resultado de **signo opuesto**.
+
+```
+✓ Dos positivos (BMS=0) → Resultado negativo (BMS=1) → OVERFLOW
+✓ Dos negativos (BMS=1) → Resultado positivo (BMS=0) → OVERFLOW
+✓ Signos diferentes → NUNCA hay overflow
+```
+
+**Ejemplo:**
+```
+5 + 4 = 9 (n=4 bits, rango -8 a +7)
+A = (0101)₂ → positivo (BMS=0)
+B = (0100)₂ → positivo (BMS=0)
+R = (1001)₂ → negativo (BMS=1) ✗ → OVERFLOW DETECTADO
+```
+
+---
+
+### Método 2: Comparación de Acarreos (Matemático)
+
+**Condiciones CONSECUTIVAS para Overflow:**
+
+1. **Ambos operandos tienen el MISMO signo** (BMS_A = BMS_B)
+2. **Los 2 últimos acarreos son DISTINTOS** 
+   - Cout del BMS ≠ Cin del BMS
+
+**En fórmula:**
+```
+Overflow = (BMS_A = BMS_B) AND (Cout_BMS ≠ Cin_BMS)
+```
+
+**Ejemplo con n=8 bits: 119 + 40 = 159 (Overflow)**
+
+```
+Suma binaria (acarreos resaltados en el BMS):
+    ¹0110000    ← Acarreos de columnas inferiores
+    0111 0111   (119)
+  + 0010 1000   (40)
+  ───────────
+    1001 1111
+
+Análisis del BMS (columna más a la izquierda):
+- BMS_A = 0 (positivo)
+- BMS_B = 0 (positivo)
+- Cin_BMS = 1 ← Acarreo que ENTRA al BMS desde columna 7
+- Cout_BMS = 0 ← Acarreo que SALE del BMS (se descarta)
+
+Condiciones:
+✓ Mismo signo: BMS_A = BMS_B = 0 ✓
+✓ Acarreos distintos: Cin_BMS(1) ≠ Cout_BMS(0) ✓
+→ OVERFLOW DETECTADO
+```
+
+**Ejemplo con n=4 bits: -5 - 3 = -8 (SIN Overflow)**
+
+```
+Suma binaria:
+    ¹¹¹¹      ← Acarreos de todas las columnas
+    1011      (-5 en CA2)
+  + 1101      (-3 en CA2)
+  ──────
+  (1)1000    Cout final se descarta
+
+Análisis del BMS (columna 4):
+- BMS_A = 1 (negativo)
+- BMS_B = 1 (negativo)
+- Cin_BMS = 1 ← Acarreo que ENTRA al BMS
+- Cout_BMS = 1 ← Acarreo que SALE del BMS
+
+Condiciones:
+✓ Mismo signo: BMS_A = BMS_B = 1 ✓
+✗ Acarreos distintos: Cin_BMS(1) = Cout_BMS(1) ✗
+→ SIN OVERFLOW (los acarreos son iguales)
+```
+
+---
+
+### Comparación de Métodos
+
+| Método | Ventaja | Desventaja | Cuándo usar |
+|--------|---------|-----------|-------------|
+| **Método 1** (Signos) | Visual, fácil, rápido | Requiere ver el resultado | Examen, verificación rápida |
+| **Método 2** (Acarreos) | No requiere resultado | Más complejo | Análisis detallado, hardware |
+
+**Usa el que prefieras. Ambos dan el MISMO resultado.**
+
+---
+
 ## 🔢 Multiplicación y División por 10 en Base 10
 
 ### Teoría Fundamental
