@@ -310,6 +310,147 @@ El cálculo original parece tener error. Mejor dejar sin esta verificación deta
 
 ---
 
+## 🔢 Multiplicación y División por 10 en Base 10
+
+### Teoría Fundamental
+
+**Concepto clave:** Multiplicar o dividir por 10 en el sistema decimal es equivalente a **desplazar la posición de la coma (punto decimal)** una posición.
+
+#### Reglas Prácticas:
+- **Multiplicar por 10** → Corre la coma **una posición a la derecha**, agrega ceros si es necesario
+- **Dividir por 10** → Corre la coma **una posición a la izquierda**, agrega ceros si es necesario
+
+#### Ejemplos:
+```
+(302,05)₁₀ × 10 = (3020,5)₁₀
+(4172)₁₀ × 10 = (41720)₁₀
+(25,8)₁₀ × 10 = (258)₁₀
+
+(500)₁₀ ÷ 10 = (50)₁₀
+(75,3)₁₀ ÷ 10 = (7,53)₁₀
+(120,456)₁₀ ÷ 10 = (12,0456)₁₀
+```
+
+### Justificación Matemática (Teorema Fundamental)
+
+Dado un número A en base 10:
+
+$$A = A_{n-1} \cdot 10^{n-1} + ... + A_1 \cdot 10^1 + A_0 \cdot 10^0 + A_{-1} \cdot 10^{-1} + ... + A_{-m} \cdot 10^{-m}$$
+
+Al multiplicar por 10:
+
+$$10 \cdot A = A_{n-1} \cdot 10^n + ... + A_1 \cdot 10^2 + A_0 \cdot 10^1 + A_{-1} \cdot 10^0 + A_{-2} \cdot 10^{-1} + ... + A_{-m} \cdot 10^{-m+1}$$
+
+**Observación:** Todos los exponentes se incrementan en 1, lo que equivale a desplazar todos los dígitos **una posición a la izquierda**.
+
+### Ejercicios Prácticos
+
+#### Ejercicio 1: Multiplicación Simple
+```
+A = (47,3)₁₀
+
+Cálculo:
+A × 10 = (473)₁₀  ✓
+
+Verificación:
+(47,3) × 10 = 47,3 × 10 = 473
+```
+
+#### Ejercicio 2: Con Múltiples Multiplicaciones
+```
+A = (12,456)₁₀
+
+A × 10 = (124,56)₁₀
+A × 100 = A × 10 × 10 = (1245,6)₁₀
+A × 1000 = A × 10 × 10 × 10 = (12456)₁₀
+```
+
+#### Ejercicio 3: División
+```
+B = (8750,5)₁₀
+
+B ÷ 10 = (875,05)₁₀
+B ÷ 100 = (87,505)₁₀
+B ÷ 1000 = (8,7505)₁₀
+```
+
+---
+
+## 🔗 Conexión: Multiplicación por 2 (Binario) vs por 10 (Decimal)
+
+### Analogía Fundamental
+
+Ambas operaciones funcionan **exactamente igual**, solo cambia la base:
+
+| Operación | Base 2 (Binario) | Base 10 (Decimal) |
+|-----------|------------------|-------------------|
+| **Concepto** | Multiplicar por 2 | Multiplicar por 10 |
+| **Acción** | Desplazar coma 1 posición a la derecha | Desplazar coma 1 posición a la derecha |
+| **Efecto** | Corre todos los dígitos una posición (× base) | Corre todos los dígitos una posición (× base) |
+| **Ejemplo** | (1101,01)₂ × 2 = (11010,1)₂ | (130,5)₁₀ × 10 = (1305)₁₀ |
+
+### Caso Comparativo Directo
+
+```
+BINARIO (Base 2):
+A = (1011,1)₂ = 11,5₁₀
+
+A × 2 = (10111)₂ = 23₁₀ ✓ (11,5 × 2 = 23)
+A × 4 = (101110)₂ = 46₁₀ ✓ (11,5 × 4 = 46)  [desplazamientos: 2 posiciones]
+A ÷ 2 = (101,11)₂ = 5,75₁₀ ✓ (11,5 ÷ 2 = 5,75)
+
+DECIMAL (Base 10):
+B = (11,5)₁₀
+
+B × 10 = (115)₁₀ ✓
+B × 100 = (1150)₁₀ ✓ [desplazamientos: 2 posiciones]
+B ÷ 10 = (1,15)₁₀ ✓
+```
+
+### Fórmula Generalizada
+
+Para cualquier base B y número A:
+
+$$A \times B^k = \text{Desplazar A } k \text{ posiciones a la derecha}$$
+$$A \div B^k = \text{Desplazar A } k \text{ posiciones a la izquierda}$$
+
+### Ejercicio Integrador: Binario ↔ Decimal
+
+```
+1. Dado: A = (1101,01)₂ = 13,25₁₀
+
+2. Multiplicar por 2ⁿ en binario vs por 10ⁿ en decimal:
+
+   En Binario:
+   A × 2² = (110101)₂ = 53₁₀ ✓ (13,25 × 4 = 53)
+   A × 2⁴ = (11010100)₂ = 212₁₀ ✓ (13,25 × 16 = 212)
+
+   En Decimal (mismo número):
+   13,25 × 10 = 132,5
+   13,25 × 100 = 1325
+   13,25 × 10000 = 132500
+
+3. Observe: El principio es idéntico, solo cambia la base (2 vs 10)
+```
+
+### Conexión con Factor de Escala
+
+Recuerda que en **punto fijo**, el factor de escala es $2^n$.
+
+Multiplicar un número en punto fijo por su factor de escala es equivalente a:
+- **Desplazar la coma** en binario $n$ posiciones a la derecha
+- Convertir el número fraccionario a un entero que pueda operarse
+
+```
+Ejemplo: Q0.10.4, A = 279,75
+
+Factor de escala = 2⁴ = 16
+
+A × 2⁴ = 279,75 × 16 = 4476  ← Desplazamiento de 4 posiciones en binario
+```
+
+---
+
 ## Instrucciones de Uso
 
 ### Para visualizar
